@@ -1,0 +1,255 @@
+@charset "utf-8";
+
+
+ul.nav li a {
+  font-family: 'Hind', sans-serif;
+  padding: 5px 10px;
+  font-size: 20px;
+  font-weight: 100;
+  text-transform: uppercase;
+}
+
+#page {opacity:0;}
+
+/* elements */
+span.rnd {
+  font-size: 14px;
+  background-color: rgba(0,0,0,0.5);
+  color: #fff;
+  border-radius: 50px;
+  -moz-border-radius: 50px;
+  width: 44px;
+  height: 44px;
+  text-indent: 8px;
+  line-height: 44px;
+  position: absolute;
+  margin-top: 8px;
+  margin-left: 2px;
+  font-weight: normal;
+  text-transform: lowercase;
+  font-weight:800;
+  font-style: italic;
+  text-shadow: 1px 2px 0 rgba(0,0,0,0.075);
+  -webkit-box-shadow: 1px 2px 0 0 rgba(0,0,0,0.075);
+  -moz-box-shadow: 1px 2px 0 0 rgba(0,0,0,0.075);
+}
+
+.story {
+  margin: 90px 60px;
+  padding: 60px 20px 20px 20px;
+  background: #fff;
+}
+
+.list {
+  margin: 40px 60px 90px 60px;
+  padding: 20px 20px 40px 20px;
+  background: #fff;
+  min-height: 410px;
+}
+
+#list {
+  background:url(/assets/firstBG.jpg) 50% -75px no-repeat fixed;
+  min-height: 1200px;
+  padding: 60px 0 0 0;
+}
+
+#list h2 {
+  text-transform: uppercase;
+  font-weight: 500px;
+  font-size: 14px;
+}
+
+#list ul {
+  background: #fff;
+  list-style: none;
+}
+
+#list li {
+  padding: 5px;
+}
+
+#list li a {
+  font-weight: 300;
+  font-size: 14pt;
+  line-height: 14pt;
+}
+
+#list li a:hover {
+  text-decoration: none
+}
+
+.post {
+  font-family: "Hind", sans-serif;
+  background: url(/assets/secondBG.jpg) 50% 0 no-repeat fixed;
+  color: #000;
+  min-height: 1200px;
+  margin: 0 auto;
+  overflow:hidden;
+  padding: 0;
+}
+
+
+.post-title {
+  margin-bottom: 20px;
+  border-bottom: solid #888 2px;
+  padding-bottom: 20px;
+}
+
+.post-title a {
+  font-weight: 700;
+  font-size: 36pt;
+  line-height: 36pt;
+  color: #000;
+  text-decoration: none;
+}
+
+.post-date {
+  color: #2390BB;
+  font-weight: 800;
+  font-size: 10pt;
+  line-height: 10pt;
+  margin: 0px;
+  padding: 50px 0;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.post-body {
+  margin-left: 20px;
+  margin-bottom: 20px;
+  padding-top: 25px;
+}
+.post-body p {
+  font-weight: 400;
+  font-size: 12pt;
+  line-height: 18pt;
+  color: #000;
+  text-align: justify;
+  text-justify: inter-word;
+  margin-bottom: 15px;
+}
+.post-body p:first-child {
+  text-indent: 25px;
+}
+
+.post-body a {
+  color: #2390BB;
+  text-decoration: none;
+  font-size: 12pt;
+  line-height: 14pt;
+}
+.post-body a:hover {
+  color: #63bde1;
+  text-decoration: underline;
+}
+.post-body h2 {
+  font-weight: 800;
+  font-size: 24pt;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.post-body h3 {
+  font-weight: 600;
+  font-size: 16pt;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+
+.post-body ul li {
+  list-style-type: circle;
+  font-weight: 500;
+  font-size: 12pt;
+  line-height: 14pt;
+}
+
+.post-body code {
+  font-size: 12pt;
+  line-height: 14pt;
+}
+
+.post-body span.token {
+  font-size: 12pt;
+  line-height: 14pt;
+}
+
+.post-video {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  margin: 50px 0;
+  text-align: right;
+ }
+
+.post-video iframe {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.post-slides {
+  position: relative;
+  padding-bottom: 100%;
+  height: 0;
+  margin: 50px 0;
+  text-align: right;
+ }
+
+.post-slides iframe {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.post-video a, .post-slides a {
+  color: #2390BB;
+  font-weight: 800;
+  font-size: 10pt;
+  line-height: 10pt;
+  margin: 0px;
+  text-transform: uppercase;
+}
+
+.post-tag {
+  float: right;
+  border: 2px solid #2390BB;
+  margin: 4px 4px;
+  padding: 4px;
+  line-height: 12pt;
+  width: auto;
+  color: #2390BB;
+  font-weight: 800;
+  font-size: 8pt;
+  text-transform: uppercase;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -o-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  border-radius: 4px;
+}
+
+a.post-tag  {
+  text-decoration: none;
+}
+
+a.post-tag:hover   {
+  background-color: #2390BB;
+  color: #fff;
+}
+
+
+@media only screen and (max-width: 799px) {
+  h1 {
+  font-weight:200;
+  }
+  h3 {
+  font-size:32\0px;
+  font-weight:200;
+  line-height:32px;
+  }
+}

@@ -1,0 +1,91 @@
+---
+title: Generating Descriptive Statistics in Ruby and Rails
+slug: generating-descriptive-statistics-in-ruby-and-rails
+date: Thursday November 10th, 2014
+tags:
+  - Ruby
+  - Ruby on Rails
+  - Gems
+  - Statistics
+markdown: |
+  The core Ruby libraries do not provide an easy way to calculate simple
+  descriptive statistics on collections of numbers. However, this can be easily
+  achieved using the [DescriptiveStatistics Gem](https://github.com/thirtysixthspan/descriptive_statistics).
+  First, start by installing the gem `gem install descriptive_statistics`.
+  Then, once you require DescriptiveStatistics, all objects that extend
+  [Enumerable](ruby-doc.org/core/Enumerable.html) will begin to
+  respond to the new statistical methods. For example
+
+  ```
+  require 'descriptive_statistics'
+  data = [2,6,9,3,5,1,8,3,6,9,2]
+  data.number # => 11.0
+  data.sum # => 54.0
+  data.mean # => 4.909090909090909
+
+  data = {a: 1, b: 2, c: 3, d:4, e: 5}
+  data.mean #=> 3.0
+  data.variance #=> 2.0
+
+  require 'set'
+  data= Set.new([1,2,3,4,5])
+  data.median #=> 3.0
+  data.standard_deviation #=> 1.4142135623730951
+
+  data = Range.new(1,5)
+  data.sum #=> 15.0
+  data.mean #=> 3.0
+  ```
+
+  Statistical methods also accept blocks, which can be used to make calculations
+  on individual attributes of objects in a collection. For example
+
+  ```
+  require 'descriptive_statistics'
+  LineItem = Struct.new(:price, :quantity)
+  cart = [ LineItem.new(2.50, 2), LineItem.new(5.10, 9), LineItem.new(4.00, 5) ]
+  total_items = cart.sum(&:quantity) # => 16.0
+  total_price = cart.sum{ |i| i.price * i.quantity } # => 70.9
+  ```
+
+  DescriptiveStatistics can be used with Ruby on Rails but some care must be taken.
+  The [ActiveSupport](http://guides.rubyonrails.org/active_support_core_extensions.html)
+  library, which is required by Ruby on Rails, extends the Ruby core with a number
+  of useful additional methods. One of these methods
+  [sum](http://api.rubyonrails.org/classes/Enumerable.html#method-i-sum)
+  conflicts with that provided by DescriptiveStatistics.
+
+  To use DescriptiveStatistics with Ruby on Rails, you will need to use one of the
+  safe methods described in the
+  [Readme](https://github.com/thirtysixthspan/descriptive_statistics/blob/master/README.md)
+  which do not monkey patch the Enumerable module. The simplest method is to use
+  the module methods directly. First, add DescriptiveStatistics
+  to your Gemfile, requiring the safe extension.
+
+  ```
+  source 'https://rubygems.org'
+
+  gem 'rails', '4.1.7'
+  gem 'descriptive_statistics', '~> 2.4.0', :require => 'descriptive_statistics/safe'
+  ```
+  Then after a `bundle install`, the DescriptiveStatistics module methods will be
+  available to operate on collections of objects, including ActiveRecord objects.
+  ```
+  DescriptiveStatistics.mean([1,2,3]) # => 2.0
+  DescriptiveStatistics.mean(User.all, &:age) => 19.428571428571427
+  ```
+  Alternatively, you can extend DescriptiveStatistics on an individual collection
+  and call the methods as needed.
+  ```
+  users = User.all.extend(DescriptiveStatistics)
+  mean_age = users.mean(&:age) # => 19.428571428571427
+  mean_age_in_dog_years = users.mean { |user| user.age / 7.0 } # => 2.7755102040816326
+  ```
+  This approach will superseed ActiveSupport defined methods only on the extended
+  collection and avoid any potential conflicts on other collections where the
+  ActiveSupport methods will still be available.
+
+
+
+
+

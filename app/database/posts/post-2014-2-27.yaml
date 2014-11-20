@@ -1,0 +1,135 @@
+---
+title: The Hard Part of Software Development is not the Software
+slug: the-hard-part-of-software-development
+date: Thursday February 27th, 2014
+video_embed: <iframe src="http://player.vimeo.com/video/87647138" width="50%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+video_url: test
+slide_embed: <script async class="speakerdeck-embed" data-id="d68a8c105243013294f54e2c5650262a" data-ratio="1.33333333333333" src="http://speakerdeck.com/assets/embed.js"></script>
+slide_url: test
+tags:
+  - Software Development
+  - Software
+  - Collaboration
+  - Teams
+markdown: |
+  ## Talk presented at the February 2014 [Austin on Rails](http://austinonrails.org) Meeting
+
+  I am programmer but in the tradition of Michael Weston I am a total hack.
+  I have been programming for 25 years and in that time I have learned how to
+  get things done, but the one thing I know is that I am awful software developer.
+  However, I want to get better.
+
+  There are a lot of ways that I have tried to get better over the years.
+  I learned to use new languages, new frameworks, new APIs, new patterns,
+  new libraries, new tools. All of these things helped me get stuff done.
+
+  Unfortunately, none of these things have really made me a better software developer.
+  The one thing I haven't done much of is develop software as part of a large team. I
+  think we all can understand that there are a lot of benefits to working with
+  a team on software including:
+
+  * Accomplish big and complex projects
+  * Opportunities to learn from each other
+  * Camaraderie is motivating
+  * Someone to help you out when you make a mistake
+
+  So about 6 months ago I joined PeopleAdmin as a Ruby Developer. PeopleAdmin
+  is a company that provides HR solutions to Universities using Software as a
+  Service Model. We have a very large and complex Rails codebase that is 7+
+  years old and we host terabytes worth of data. The Engineering team consists
+  of about 25 people. It is a top notch team and I'm honored to be part of it.
+
+  Based on all of your experiences, you probably roughly already know what takes
+  to makes a good team; knowledgable and reliable people, good communication,
+  trust and respect, and ownership. It's probably an uncontroversial statement
+  that being a good team member is a very important part of being a good
+  software developer, but working with other people can be hard and
+  sometimes things go wrong, very wrong.
+
+  There are many reasons for this including:
+
+  * Some people seek individual recognition / gain
+  * Being polite is hard, it takes extra effort
+  * All you really care about is the software
+  * That person you just naturally do not get along with
+
+  So I want to tell you two stories from my experiences at PeopleAdmin that
+  demonstrate lessons that I have learned from the mistakes that I made working
+  with the team. They center on these two themes, recognition of excellence and
+  empathy for failure.
+
+  ## Recognition of excellence
+
+  So when I first joined peopleadmin, one of the other developers was wrapping
+  up a project getting it into production. He had used a new language Go and a SOA
+  approach to solve a problem that had been a sore spot in the product for a long
+  while. It improved our throughput and added additional functionality to our
+  application which was a big win.
+
+  The one thing I noticed was the heaping helping of praise he received over
+  and over from the team. At the time I did not think, "oh he did great work".
+  I thought "I would love that to be me receiving the praise". I took a
+  cursory look at the work and thought "I can do that". And honestly I do not
+  even think that I complemented him on what was actually really excellent work.
+
+  Since starting at PeopleAdmin I've been working on a large project that is
+  nearing completion now. At a recent demonstration of the project, I received
+  a heaping helping of praise. That was a really good feeling. However, a new
+  junior developer made an offhand comment in passing that made me think he
+  didn't appreciate the complexity of the problem or value the hard work I
+  had put into creating a solution.
+
+  And it clicked. It was only then that I realized the mistake I had made in
+  judging the value my colleagues work from before. I underestimated the
+  amount of work and complexity of the problem from the outside looking in.
+  It looked simple. One take away is that we are naturally biased to think
+  simple things are simple to create.
+
+  Another take away from the story is that recognition of excellence is not
+  a zero sum game. This has always been a hard one for me to wrap my head
+  around and I think it's a natural bias to believe that recognizing
+  someone else's excellence and your own excellence are mutually incompatible.
+  I think that is partly because the competitive nature of our society so
+  that bias is built into the DNA of a lot of us.
+
+  Although it might be natural to compete with your team mates, it is actually
+  counter productive. One of the great benefits of being on a team is their
+  support and praise. You need to do the same.
+
+  ## Empathy for failure
+
+  Second story. Early on in my time at PeopleAdmin, one of the developers
+  committed code that broke the build. They sheepishly admitted to it and
+  went about fixing it. And I thought "that was a silly mistake, they should
+  have been more careful" and I may have downgraded my perception of the
+  developer's skills. I was new, trying to get a feel the skill levels of
+  the various developers on the team.
+
+  Shortly thereafter, I am 90% sure that by messing around with something
+  I knew little to nothing about,  I corrupted our staging environment.
+  This caused a mountain of extra work for the team and a delay to all
+  our QA work in progress.  I was thinking through all the things that
+  set me up to fail, excuses and such.
+
+  What I realized was that I exhibited the fundamental attribution error.
+  It is a well known and pervasive psychological fact where we tend to
+  attribute the cause of the failure to the actor's shortcomings more
+  frequently than the situational factors that lead to the failure.
+
+  However this only hold true for judging others, not yourself. We
+  overwhelmingly attribute our own failures to situational factors.
+  This is the actor/observer bias.
+
+  For example when you see someone trip, you think they are clumsy, but
+  when you trip, you ask who put that in my way?
+
+  A more relevant example, when you see a bug, it is easy to say,
+  "who's the moron?" rather than "oh man, this is a really complex
+  system we're working on".
+
+  ## Take aways
+
+  * Recognize excellence freely because creating _simple_ things is _hard_
+  * Have empathy for failure because failure is, more often than not, due the circumstances surrounding the failure
+
+  Internalize these and you will be a better team member and thus a better software developer!

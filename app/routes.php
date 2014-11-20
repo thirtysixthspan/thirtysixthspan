@@ -1,17 +1,14 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the Closure to execute when that URI is requested.
-|
-*/
+Route::get('posts/tag/{slug}', array('as' => 'posts', 'uses' => 'PostsController@getTaggedPosts'));
 
-Route::get('/', function()
+Route::get('posts/{slug}', array('as' => 'post', 'uses' => 'PostsController@getPost'));
+
+Route::get('/', array('as' => 'home', 'uses' => 'FrontController@getIndex'));
+
+Route::get('page-not-found', array('as' => '404', 'uses' => 'BaseController@pageNotFound'));
+
+App::missing(function($exception)
 {
-	return View::make('hello');
+  return Redirect::to('page-not-found');
 });
