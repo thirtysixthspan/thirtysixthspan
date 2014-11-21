@@ -2,7 +2,6 @@
   <div class="container-fluid">
     <div class="story">
       <div class="row-fluid">
-        <div class="span7">
           <h1>Derrick Jay Parkhurst</h1>
           <ul>
             <li><a href="mailto:derrick.parkhurst@gmail.com">derrick.parkhurst@gmail.com</a></li>
@@ -12,7 +11,6 @@
             <li><a href="http://coderwall.com/thirtysixthspan">Coder Wall</a></li>
             <li>405.596.4697</li>
           </ul>
-        </div>
       </div>
     </div>
   </div>

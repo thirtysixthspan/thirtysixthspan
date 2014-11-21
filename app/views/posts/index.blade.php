@@ -30,16 +30,16 @@
     <div id='list'>
       <div class='list'>
         <div class='row-fluid'>
-          <div class='span3'>
+          <div class='sidebar span3'>
             <div class='container-fluid'>
               {{ View::make('posts/tags', array('tags' => $tags, 'activeTag' => $activeTag)) }}
             </div>
           </div>
-          <div class='span7'>
+          <div class='mainbar'>
             <div class='container-fluid'>
               {{ View::make('posts/posts', array('posts' => $posts, 'activeTag' => $activeTag)) }}
             </div>
-          </div
+          </div>
         </div>
       </div>
     </div>

@@ -167,13 +167,191 @@ span.rnd {
 }
 
 
-@media only screen and (max-width: 799px) {
-  h1 {
-	font-weight:200;
-  }
-  h3 {
-	font-size:32\0px;
-	font-weight:200;
-	line-height:32px;
-  }
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 568px) 
+and (orientation : portrait) { 
+
+ul.nav li a {
+  font-size: 45px;
+  font-weight: 250;
+}
+
+.navbar .nav > li > a {
+  padding: 45px 20px;
+}
+
+#about {
+  background: url(../assets/firstBG.jpg) 75% 0 no-repeat scroll;
+  min-height: 1440px;
+}
+
+#about h1 {
+  font-size: 80px;
+  font-weight: 300;
+  line-height: 80px;
+  margin-top: 5%;
+}
+
+#about h3 {
+  font-size: 60px;
+  font-weight: 275;
+  line-height: 60px;
+}
+
+#about h4 {
+  font-size: 55px;
+  font-weight: 250;
+  line-height: 55px;
+}
+
+#quote {
+  top: 150px;
+}
+
+#quote h2 {
+  font-size: 45px;
+}
+
+#quote p {
+  font-size: 25px;
+}
+
+.source {
+  font-size: 20px;
+}
+
+#interests {
+  min-height: 1600px;
+}
+
+#interests .label {
+  font-size: 40px;
+  line-height: 80px;
+  padding: 10px 20px;
+  margin: 10px;
+  white-space: nowrap;
+}
+
+#interests .label-info {
+ display: block;
+ color: #000;
+ background-color: #fff;
+ padding: 0px;
+ margin: 5px;
+}
+
+#contact {
+  min-height: 1600px;
+}
+
+#contact h1 {
+  margin-top: 10%;
+  font-weight: 300;
+}
+
+#contact ul {
+  width: 90%;
+  margin-top: 25%;
+}
+
+#contact a {
+  font-size: 60px;
+  line-height: 105px;
+  font-weight: 300;
+}
+
+
+}
+
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 568px) 
+and (orientation : landscape) { 
+
+ul.nav li a {
+  font-size: 35px;
+  font-weight: 250;
+}
+
+.navbar .nav > li > a {
+  padding: 35px 15px;
+}
+
+#about {
+  background: url(../assets/firstBG.jpg) 75% 10% no-repeat scroll;
+  min-height: 1440px;
+}
+
+#about h1 {
+  font-size: 60px;
+  font-weight: 300;
+  line-height: 60px;
+  padding: 15px 0 0 0;
+}
+
+#about h3 {
+  font-size: 40px;
+  font-weight: 275;
+  line-height: 40px;
+}
+
+#about h4 {
+  font-size: 35px;
+  font-weight: 250;
+  line-height: 35px;
+}
+
+#quote {
+  top: 25px;
+}
+
+#quote h2 {
+  font-size: 35px;
+}
+
+#quote p {
+  font-size: 25px;
+}
+
+.source {
+  font-size: 20px;
+}
+
+#interests {
+  min-height: 1600px;
+  padding: 00;
+}
+
+#interests .label {
+  font-size: 25px;
+  line-height: 30px;
+  padding: 5px 10px;
+  margin: 10px 5px;
+  white-space: nowrap;
+}
+
+#contact {
+  min-height: 1600px;
+  padding-top: 0px;
+}
+
+#contact h1 {
+  margin-top: 0;
+  font-size: 60px;
+  font-weight: 300;
+}
+
+#contact ul {
+  width: 90%;
+  margin-top: 0;
+}
+
+#contact a {
+  font-size: 35px;
+  line-height: 45px;
+  font-weight: 300;
+}
+
+
 }

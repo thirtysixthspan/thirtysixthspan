@@ -2,9 +2,9 @@
   <div class='story'>
     <div class='row-fluid'>
       @if ($post->slide_embed != null || $post->video_embed != null)
-        <div class='span3'>
+        <div class='sidebar span3'>
       @else
-        <div class='span2'>
+        <div class='sidebar span2'>
       @endif
         <div class='container-fluid'>
           <div class='post-date'>
@@ -46,11 +46,7 @@
         </div>
 
       </div>
-      @if ($post->slide_embed != null || $post->video_embed != null)
-        <div class='span8'>
-      @else
-        <div class='span9'>
-      @endif
+      <div class='mainbar'>
         <div class='container-fluid'>
           <div class='post-title'>
             <a href='{{{ URL::route('post', $post->slug) }}}'>
