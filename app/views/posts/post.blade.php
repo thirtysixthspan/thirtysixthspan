@@ -36,7 +36,7 @@
         </div>
         <div class='container-fluid'>
           <div class='post-video'>
-            @if ($post->slide_url != null)
+            @if ($post->video_url != null)
               <a href="{{ $post->video_url }}">Video for this post</a>
             @endif
             @if ($post->video_embed != null)
