@@ -1,0 +1,46 @@
+---
+title: Review of Metaprogramming Ruby 2
+slug: review-of-meta-programming-ruby-2
+date: Wednesday, September 17th, 2014
+slide_embed: <script async class="speakerdeck-embed" data-id="54fed20054020132908d3eaab31bdc30" data-ratio="1.33333333333333" src="http://speakerdeck.com/assets/embed.js"></script>
+slide_url: https://speakerdeck.com/thirtysixthspan/review-of-metaprogramming-ruby-2
+tags:
+  - Ruby
+  - Metaprogramming
+  - Book
+markdown: |
+  I recently read [Metaprogramming Ruby 2](https://pragprog.com/book/ppmetr2/metaprogramming-ruby-2)
+  and gave an overview presentation to the PeopleAdmin engineering team. While this
+  book is listed as an advanced text for Ruby developers, it contains an extensive
+  explanation of an important part of Ruby, the Object Model. While the book covers
+  the Object Model as a lead-in to discussing metaprogramming, I believe this
+  explanation would be useful for any developer except those just learning Ruby.
+
+  The first part of the book covers various aspects of the Object Model including
+  the organization of classes and modules, the ins and outs of methods, blocks and
+  procs, as well as the process of method and constant lookup. This is done through
+  an easy to read story of two developers pairing to solve a series of programming
+  problems which serves nicely to present code examples that demonstrate the target
+  concepts.
+
+  The second part of the book tells three stories that demonstrate the pros and cons of
+  metaprogramming in practice. The first centers around the way in which ActiveRecord
+  developers leveraged metaprogramming to make the ActiveRecord API elegant and to
+  incrementally improve the performance of the library. Any developer who has worked
+  in Rails will find this retrospective discussing the evolution of ActiveRecord from 1.0
+  to 4.0 interesting in its own right. The other stories focus on ActiveSupport Concerns
+  and the use and abuse of the alias_method_chain method in the context of Rails.
+
+  Metaprogramming is considered a dirty word in many circles. Although these techniques
+  are very powerful, that power can, without care, come with serious costs. The author
+  does a good job of not only arguing that metaprogramming is a tool that should be in
+  a Rubyist's tool belt, but also provides appropriate usage patterns and
+  makes the reader aware of best practices that help to minimize these costs.
+
+  This is one of the things that made me glad to have read through this book. The author
+  names each metaprogramming patterns (he calls them spells) and collects them into an
+  appendix (a grimoire). Although I have used many of these metaprogramming approaches in
+  various projects, I did extract and name them. Now that I see them as patterns, I
+  suspect it will be easier to reach into the tool belt and apply them to future problems.
+
+
