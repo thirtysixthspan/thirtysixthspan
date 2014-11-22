@@ -1,0 +1,46 @@
+---
+title: Intentional Git: May the Git --force be with you
+slug: intentional-git-may-the-git-force-be-with-you
+date: Wednesday, August 6th, 2014
+slide_embed: <script async class="speakerdeck-embed" data-id="34398120542e013230cb4a465cf9b513" data-ratio="1.33333333333333" src="http://speakerdeck.com/assets/embed.js"></script>
+slide_url: https://speakerdeck.com/thirtysixthspan/may-the-git-force-be-with-you
+tags:
+  - Git
+  - Github
+markdown: |
+  I recently gave a presentation on the fundamentals of Git workflow to the engineering team at PeopleAdmin. I have been spending more and more time learning and working with Git. The reasons for this are twofold. First, our Git repositories are large and have a long history. The code has been written and revised over the last 7 years. Second, the number of developers working on a project is always greater than one. Thus it is not unusual to run into the need to deal with code conflicts using advanced Git tools.
+
+  While either debugging existing code or adding new features that must integrate with existing code, I have often found it useful to review the Git history. [Git blame](http://git-scm.com/docs/git-blame) gives us the commit SHA and author for each line of code in a file. Selecting the commit SHA of a relevant line of code, and then using [Git log](http://git-scm.com/docs/git-log) to show the related commit history can provide very useful context for the code by way of the commit messages. Ideally, the history is full of descriptive and relevant commit messages that help you to understand the motivation for the changes made to the code.
+
+  The _de facto_ standard for formatting Git commit messages is given by [Tim Pope](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html):
+
+      Capitalized, short (50 chars or less) summary
+
+      More detailed explanatory text, if necessary.  Wrap it to about 72
+      characters or so.  In some contexts, the first line is treated as the
+      subject of an email and the rest of the text as the body.  The blank
+      line separating the summary from the body is critical (unless you omit
+      the body entirely); tools like rebase can get confused if you run the
+      two together.
+
+      Write your commit message in the imperative: "Fix bug" and not "Fixed bug"
+      or "Fixes bug."  This convention matches up with commit messages generated
+      by commands like git merge and git revert.
+
+  It is important to not only explain the changes but also the motivation for said changes. Questions that Thoughtbot requires to be addressed in commit messages are given by [Caleb Thompson](http://robots.thoughtbot.com/5-useful-tips-for-a-better-commit-message):
+
+      * Why is this change necessary?
+      * How does this change address the issue?
+      * What are the side effects of this change?
+
+  Our team, like many, follows a Github/Git workflow that involves feature branching, pull requests, code review and automated merging into a master branch. This workflow significantly smooths the process of developing software. However, it does not place much, if any, pressure on crafting well formatted or meaningful commit messages. There are three views for each Pull Request (PR), the Discussion, Commits and Files Changed tabs. The Discussion tab captures the PR description, links to commits and any comments made during review. The Commits tab shows a list of links to commits and their respective commit summary lines. The Files Changes tab shows a code diff for the entire PR.
+
+  When providing a code review, it is common for a developer to review only the PR description and the code diff for the entire PR without examining any of the individual commit messages. There are many reasons for this. First, the description is front and center and answers many of those questions that should be answered in the commit messages. Second, accessing the full commit messages requires multiple clicks, and takes you away from the PR page. Finally, it is not uncommon, especially with developers new to working in Git, to only add (not revise) commits and to do so with very brief and sometimes meaningless commit messages. For example, I'm sure you have seen commits that only fix typos. When this linear commit process leads to changing code previously added in the same branch, to revise typos or more seriously to revise implementational details, viewing earlier commits would show code additions that do not necessarily reflect the state of the code in master once the PR is merged.
+
+  Although the Github process does not encourage it, a clean commit history and concise commit messages can help other developers understand, debug and extend your code. Achieving this benefit will require conscious effort and extra steps in your workflow. Because it makes sense to focus on getting the code right first, I suggest that the final step in your workflow (before opening a PR) is updating the commit history. To revise commit history there are a number of lesser used Git tools which can be useful. [Git commit](http://git-scm.com/docs/git-commit) with the --amend flag will allow you to revise the files and commit message included in the last commit. [Git rebase](http://git-scm.com/docs/git-rebase) with the --interactive flag will, among other things, allow you to choose individual commit messages to update, as well as allow you to combine (squash) or split existing commits. Because these tools recreate the commit history of your local branch, if you have already shared the branch with a shared repository (for example on Github), you will need to use [Git push](http://git-scm.com/docs/git-push) with the --force flag. This will overwrite your previous history on the shared repository making it available for other developers to review and use.
+
+  When multiple developers work together on a single feature, the chances for conflicts increase. More often than not, the developers commit directly to a single feature branch, and attempt to resolve conflicts in the branch along the way. In practice, this approach works well enough when the developers are effectively communicating and working closely together. However, it has the side affect of further encouraging a linear commit style. This is due to the fact that Git is a distributed revision control system. When one developer makes a local commit and pushes it to a shared repository, it becomes available for other developers to pull into their local repository. If the first developer alters this commit and then pushes the commit to the shared repository, there is some chance that a second developer will have already progressed, having added code that depends on the first developer's original commit. Thus the branches in the local repositories have diverged, and the differences will need to be resolved.
+
+  To resolve the differences, the second developer can attempt to pull in the first developer's new commit and adjust the code additions to suit, or the the second developer can force push the branch to the shared repository, overwriting the first developer's new commit. Either way, this results in a less than optimal way to collaborate. An often expressed Git practice is "Do not rewrite public history". This is because updating commits in a shared repository can lead to conflicts that are not necessarily easy to resolve. However, this does not prevent you from rewriting the commit history once all the code is complete, just before issuing a pull request. Do not be afraid of using the Git --force, just be sure to use it at the appropriate time.
+
+  Using Git intentionally with the goal of creating clear and meaningful commit messages can be extremely useful for any developers working with your code in the future. While, like any form of code documentation, crafting it can take time, neglecting to do so will build up technical debt. Accruing this debt will gain time savings now, but will make working with your code harder and slower in the future. Whether you choose to craft quality commit messages or not, it should be an conscious decision driven by a cost/benefit analysis and the needs of your business. Do not let your choice of or unfamiliarity with your tools dictate this decision for you.
