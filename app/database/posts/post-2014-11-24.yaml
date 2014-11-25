@@ -17,9 +17,9 @@ markdown: |
     end
   end
   ```
-  Here I create a DSL module with a single `enable` method that accepts a class that defines the DSL methods and a block of code. A new instance of the DSL class is created and the block that is passed in is evaluated in the context of the class, thus making the DSL methods available within the block.
+  Here I create a DSL module with a single `enable` method that accepts a class that defines the DSL methods and a block of code. A new instance of the class specifying the DSL is created and the block that is passed in is evaluated in the context of the class, thus making the DSL methods available within the block.
 
-  If we wanted to create a DSL for a pseudo reverse Polish notation (RPN)calculator, we would simply define a class with methods that define the operations in the language. For example:
+  If we wanted to create a DSL for a pseudo reverse Polish notation (RPN) calculator, we would simply define a class with methods that define the operations in the language. For example:
   ```
   class Calculator
 
