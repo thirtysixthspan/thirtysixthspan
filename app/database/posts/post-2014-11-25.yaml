@@ -1,0 +1,214 @@
+---
+title: A plethora of ways to instantiate a Ruby object
+slug: instantiate-a-ruby-object
+date: Tuesday November 25th, 2014
+tags:
+  - Ruby
+  - DSL
+  - Builder Pattern
+  - Keyword Arguments
+markdown: |
+  Ruby is a very flexible language and there are many ways to instantiate an object. There are pros and cons for each making them more or less appropriate in various use cases. Consider the task of defining a `Paragraph` class to track the style of a paragraph DOM element. A simple class definition and usage pattern might look like this
+  ```
+  class Paragraph
+
+    attr_accessor :font, :size, :weight, :justification
+
+  end
+
+  p = Paragraph.new
+  p.font = 'Times'
+  p.size = 14
+  p.weight = 300
+  p.justification = 'right'
+
+  puts "#{p.font}, #{p.size}, #{p.weight}, #{p.justification}"
+  # => Times, 14, 300, right
+  ```
+  The instantiated object uses instance variables to maintain the state and defines public getter and setter methods that allow you to update the paragraph style at any time. This is a very flexible approach, but it does not enforce a complete style definition. You might run into problems if a consumer requires such and does not appropriately handle properties with nil values. To address this concern, it is not unusual to enforce completeness by setting up all state upon instantiating the object through the use of an initializer.
+  ```
+  class Paragraph
+
+    def initialize(font, size, weight, justification)
+      @font = font
+      @size = size
+      @weight = weight
+      @justification = justification
+    end
+
+  end
+
+  p = Paragraph.new('Times', 14, 300, 'right')
+
+  puts "#{p.font}, #{p.size}, #{p.weight}, #{p.justification}"
+  # => Times, 14, 300, right
+  ```
+  In this example, Ruby will check the number of parameters passed to the initialize method against its arity, which insures that all the the style attributes are set upon instantiation. However, this approach is already becoming unwieldy due to the number of parameters, the strict parameter ordering requirement, and the need to memorize the ordering of the parameters. A Ruby idiom that addresses these concerns passes a single hash to the initialize method. For example
+  ```
+  class Paragraph
+
+    def initialize(style)
+      @font = style.fetch(:font, 'Helvetica')
+      @size = style.fetch(:size, 12)
+      @weight = style.fetch(:weight, 200)
+      @justification = style.fetch(:justification, 'right')
+    end
+
+  end
+
+  p = Paragraph.new(font: 'Times', weight: 300)
+
+  puts "#{p.font}, #{p.size}, #{p.weight}, #{p.justification}"
+  # => Times, 12, 300, right
+  ```
+  This approach reduces the cognitive load on the developer by allowing the attributes to be set with an unordered list of key/value pairs. It also minimizes the number of pairs required by setting reasonable defaults for each style attribute.
+
+  Alternatively, in Ruby 2.1, we can take advantage of [Keyword Arguments](http://ruby-doc.org/core-2.1.0/doc/syntax/methods_rdoc.html#label-Keyword+Arguments) to clarify the method signature.
+  ```
+  class Paragraph
+
+    def initialize(font: 'Helvetica',
+                   size: 12,
+                   weight: 200,
+                   justification: 'right')
+
+      %w{font size weight justification}.each do |attribute|
+        eval "@#{attribute} = #{attribute}"
+      end
+
+    end
+
+  end
+
+  p = Paragraph.new(font: 'Times', weight: 300)
+
+  puts "#{p.font}, #{p.size}, #{p.weight}, #{p.justification}"
+  # => Times, 12, 300, right
+  ```
+  Here the method parameters and their defaults are captured in the method signature instead of being buried in the method definition. This could improve the usability of class, especially if an automated documentation system is in use.
+
+  Sometimes, you may want to encourage a more declarative instantiation. Enlisting the use of a meaningfully named Struct to capture object state can help achieve this. For example
+  ```
+  class Paragraph
+
+    Style = Struct.new :font, :size, :weight, :justification
+
+    def style
+      @style ||= Style.new('Helvetica', 12, 200, 'right')
+    end
+
+    def initialize(&block)
+      yield style
+    end
+
+  end
+
+  p = Paragraph.new do |style|
+    style.font = 'Times'
+    style.size = 16
+    style.weight = 300
+  end
+
+  puts "#{p.style.font}, #{p.style.size}, #{p.style.weight}, #{p.style.justification}"
+  # => Times, 16, 300, right
+  ```
+  While not much different from the first example (using only attribute accessors), the usage makes it clear that these are style attributes which are being initialized. If the style method is made private, Paragraph becomes immutable, which may be advantageous in some cases.
+
+  Taking this one step further, a custom Domain Specific Language (DSL) can be created to achieve a more human readable interface.
+  ```
+  class Paragraph
+
+    Style = Struct.new :font, :size, :weight, :justification
+
+    def style
+      @style ||= Style.new('Helvetica', 12, 200, 'right')
+    end
+
+    def initialize &block
+      instance_eval &block
+    end
+
+    def write(parameters)
+      style.font = parameters.fetch(:using, 'Helvetica')
+      style.size = parameters.fetch(:at, 12)
+    end
+
+  end
+
+  p = Paragraph.new do
+    write using: 'Times', at: 14
+  end
+
+  puts "#{p.style.font}, #{p.style.size}, #{p.style.weight}, #{p.style.justification}"
+  # => Times, 14, 200, right
+  ```
+
+  Sometimes we don't have control over how an object is instantiated. The class might be defined in a third party library or already in use in our own code, making it difficult to change. In such a case, we can use the Builder pattern by defining a class that creates objects for us. In this way, we can create an interface of our own choosing. For example, let us imagine that the Paragraph class is defined as follows
+  ```
+  class Paragraph
+
+    def initialize(font, size, weight, justification)
+      @font = font
+      @size = size
+      @weight = weight
+      @justification = justification
+    end
+
+  end
+  ```
+  and cannot be altered. We can define a Builder class that creates Paragraph objects for us, but allows us to set the style attributes in a block.
+  ```
+  require 'ostruct'
+
+  class Builder
+
+    def self.configure(klass, &block)
+      return unless block_given?
+      struct = OpenStruct.new
+      struct.instance_eval &block
+      defaults[klass] = struct.to_h
+    end
+
+    def self.create(klass, &block)
+      struct = OpenStruct.new defaults[klass]
+      struct.instance_eval &block if block_given?
+      parameters = defaults[klass].keys.map{ |k| struct[k] }
+      klass.new(*parameters)
+    end
+
+    private
+
+      def self.defaults
+        @@defaults ||= {}
+      end
+
+  end
+  ```
+  With this in place, we can set sensible defaults, which are tracked by the Builder. The pre-existing Paragraph class has no defaults.
+
+  ```
+  Builder.configure(Paragraph) do
+    self.font = 'Helvetica'
+    self.size = 14
+    self.weight = 200
+    self.justification = 'right'
+  end
+  ```
+  We can then see that when a Paragraph is created, it reflects those defaults.
+  ```
+  p = Builder.create(Paragraph)
+
+  puts "#{p.font}, #{p.size}, #{p.weight}, #{p.justification}"
+  # => Helvetica, 14, 200, right
+  ```
+  and that those defaults can be overridden at creation time.
+  ```
+  p = Builder.create(Paragraph) do
+    self.font = 'Times'
+    self.size = 16
+  end
+
+  puts "#{p.font}, #{p.size}, #{p.weight}, #{p.justification}"
+  # => Times, 16, 200, right
+  ```
+  Thus, with relatively little extra work and no impact on the existing paragraph class, we can improve the way in which we instantiate Paragraph objects, adding features such as the ability to have default attribute values.
