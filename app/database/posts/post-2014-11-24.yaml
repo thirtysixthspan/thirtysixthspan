@@ -107,7 +107,7 @@ markdown: |
 
   end
   ```
-  Not only does implementing the DSL implemented in this way provide access to the operators, but it can also hold state by way of instance variables (stack in this example).
+  Not only does implementing the DSL in this way provide access to the operators, but it can also hold state by way of instance variables (stack in this example).
 
 
 
