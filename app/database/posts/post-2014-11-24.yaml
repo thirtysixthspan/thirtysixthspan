@@ -1,0 +1,116 @@
+---
+title: Simple interal DSLs in Ruby
+slug: simple-internal-dsl-in-ruby
+date: Monday November 24th, 2014
+tags:
+  - Ruby
+  - DSL
+markdown: |
+  It seem that creating a Doman Specific Language (DSL) is both considered all the rage and an overused scourge. In Ruby, it is really easy to create one, and I suspect that is why they are a popular tool for Rubyists. Although I've used many DSLs I have never have built one of my own. I have always had the desire to write my own programming language but am very daunted by the difficulty of crafting an elegant language that does not break down for all but the simplest cases, let alone writing an efficient language parser.
+
+  Anyway, if we focus on writing an Internal DSL, one which is built in and leverages a core language, we can accomplish this in Ruby with a simple `instance_eval`.
+  ```
+  module DSL
+    def self.enable(klass, &block)
+      container = klass.new
+      container.instance_eval(&block)
+    end
+  end
+  ```
+  Here I create a DSL module with a single `enable` method that accepts a class that defines the DSL methods and a block of code. A new instance of the DSL class is created and the block that is passed in is evaluated in the context of the class, thus making the DSL methods available within the block.
+
+  If we wanted to create a DSL for a pseudo reverse Polish notation (RPN)calculator, we would simply define a class with methods that define the operations in the language. For example:
+  ```
+  class Calculator
+
+    def initialize
+      self.stack = []
+    end
+
+    def push value
+      stack.push value
+    end
+
+    def add
+      calculate { stack.pop + stack.pop }
+    end
+
+    def subtract
+      calculate { stack.pop - stack.pop }
+    end
+
+    def multiply
+      calculate { stack.pop * stack.pop }
+    end
+
+    def divide
+      calculate do
+        a = stack.pop
+        b = stack.pop
+        b / a
+      end
+    end
+
+    private
+
+      attr_accessor :stack
+
+      def calculate &block
+        result = block.call
+        stack.push result
+        return result
+      end
+
+  end
+  ```
+  Then using the DSL is as simple as calling DSL.enable with the Calculator class and a block of RPN as shown in the following RSpec tests. Note that the result of the RPN operations are given as the output of the call to DSL.enable.
+  ```
+  describe 'Calculator' do
+
+    it 'should add two numbers' do
+
+      result = DSL.enable Calculator do
+        push 1
+        push 2
+        add
+      end
+
+      expect(result).to eq(3)
+
+    end
+
+    it 'should divide two numbers' do
+
+      result = DSL.enable Calculator do
+        push 6
+        push 2
+        divide
+      end
+
+      expect(result).to eq(3)
+
+    end
+
+    it 'should handle multiple operations' do
+
+      result = DSL.enable Calculator do
+        push 3
+        push 6
+        push 2
+        divide
+        multiply
+      end
+
+      expect(result).to eq(9)
+
+    end
+
+  end
+  ```
+  Not only does implementing the DSL implemented in this way provide access to the operators, but it can also hold state by way of instance variables (stack in this example).
+
+
+
+
+
+
