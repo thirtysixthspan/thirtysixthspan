@@ -110,7 +110,7 @@ markdown: |
   EOS
   puts doc.parse #=> {"a"=>"one", "b"=>"two", "c"=>"three"}
   ```
-  While the design has its advantageous, it requires the programmer to know which strategies can be used with the Document class. Ideally, we would like to have the flexibility to extend the abilities of the Document class without modification of the definition _and_ make the class intelligent enough to know which strategies are available and usable at any given time.
+  While the design has its advantages, it requires the programmer to know which strategies can be used with the Document class. Ideally, we would like to have the flexibility to extend the abilities of the Document class without modification of the definition _and_ make the class intelligent enough to know which strategies are available and usable at any given time.
 
   Imagine an AutoParser that can auto select an appropriate strategy (from a list of known strategies) given a particular document. The usage of the AutoParser might look like this
   ```
@@ -208,7 +208,7 @@ markdown: |
 
   end
   ```
-  Simultaneously, we add an `available?` method to each strategy class (In this case done through inheritance from a base class; the method is the same for both strategies). This method is queried by the Document class to determine if a strategy is appropriate to be used on the given Document body. All strategies in the Strategies modeul will be considered until one is found that reports availability. However, an array of target strategies can also be injected when instantiating a Document.
+  Simultaneously, we add an `available?` method to each strategy class (In this case done through inheritance from a base class; the method is the same for both strategies). This method is queried by the Document class to determine if a strategy is appropriate to be used on the given Document body. All strategies in the Strategies module will be considered until one is found that reports availability. However, an array of target strategies can also be injected when instantiating a Document. In this way the class is extensible without requiring modification or injection.
 
 
 
