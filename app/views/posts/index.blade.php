@@ -7,6 +7,7 @@
 
 @section('head')
   <head>
+    <meta charset="UTF-8">
     <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
     <link href="/css/prism.css" rel="stylesheet" type="text/css" />
@@ -58,6 +59,8 @@
         @endforeach
       })
     </script>
+
+    {{ View::make('googleAnalytics') }}
 
 </body>
 

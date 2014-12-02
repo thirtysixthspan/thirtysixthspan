@@ -7,6 +7,7 @@
 
 @section('head')
   <head>
+    <meta charset="UTF-8">
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
     <link href="/css/navigationBar.css" rel="stylesheet" type="text/css" />
@@ -41,6 +42,8 @@
     </div>
 
     {{ View::make('script') }}
+
+    {{ View::make('googleAnalytics') }}
 
   </body>
 @stop
