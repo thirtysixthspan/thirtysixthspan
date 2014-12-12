@@ -1,0 +1,210 @@
+---
+title: Hash Tricks in Ruby
+slug: hash-tricks-in-ruby
+date: Thursday December 11th, 2014
+tags:
+  - Ruby
+  - Hashes
+markdown: |
+  Here are a few tricks for using Hashes in Ruby.
+
+  ## Sort your hash
+
+  As of Ruby 1.9 Hashes became ordered by default due to a change in their implementation. However, the method [sort](http://ruby-doc.org/core/Enumerable.html#method-i-sort) for Hashes returns an array of [key, value] pairs, likely as a hold over from when Hashes were unordered.
+  ```
+  hash = {f: 4, a: 2, r: 1 }
+  hash.sort # => [[:a, 2], [:f, 4], [:r, 1]]
+  ```
+  To sort a hash and get a hash back there are a few approaches:
+  ```
+  hash.sort.to_h
+  Hash[hash.sort]
+  hash.sort_by{ |k, v| k }.to_h # sort by key
+  # => {:a=>2, :f=>4, :r=>1}
+  hash.sort_by{ |k, v| v }.to_h # sort by value
+  # => {:r=>1, :a=>2, :f=>4}
+  ```
+
+  ## Hashes all the way down
+
+  Sometimes you need to create a tree like data structure. We can take advantage of Hashes in Ruby to accomplish this elegantly. The [Hash constructor](http://www.ruby-doc.org/core/Hash.html#method-c-new) accepts a default block that will be executed when the hash is accessed by a key that does not have a corresponding hash value. Take for example this identity hash, that returns the corresponding hash value for a key if the value has been set, otherwise it returns the key itself.
+  ```
+  identity = Hash.new { |hash, key| key }
+  identity[:a] = 1
+  identity[:a] #=> 1
+  identity[:b] #=> :b
+  ```
+  Going one step further in the default block, we can store the value object in the hash so that subsequent calls fetch the object from the hash instead of creating a new one each time.
+  ```
+  identity = Hash.new { |hash, key| hash[key] = key }
+  value = identity[:a]
+  value # => :a
+  value.object_id # => 362728
+  identity[:a].object_id # => 362728
+  ```
+  Now if instead of returning the key, we return a new hash, we have a two level tree using nested hashes.
+  ```
+  tree = Hash.new { |hash, key| hash[key] = {} }
+  tree[:a] #=> {}
+  tree[:a][:x] = 'Foo'
+  tree[:a][:y] = 'Bar'
+  tree[:b][:x] = 'Baz'
+  tree[:b][:y] = 'Qux'
+  tree # => {
+    :a => {
+      :x => 'Foo',
+      :y => 'Bar'
+    }
+    :b => {
+      :x => 'Baz',
+      :y => 'Qux'
+    }
+  }
+  ```
+  But note that the depth is limited to two levels because the nested hashes return nil for unknown keys.
+  ```
+  tree[:a][:z][:j] # => NoMethodError: undefined method `[]' for nil:NilClass
+  ```
+  We can address this by assuring that all hashes in the tree initialize new hashes when an unknown key is accessed. This can be accomplished by reusing the default block of the root node of the tree for each new hash that we construct. The Hash method [`default_proc`](http://www.ruby-doc.org/core/Hash.html#method-i-default_proc) provides us access to the default block as a Proc object. If each time we construct a new hash, we pass the default proc of the parent hash, we get a tree that grows endlessly.
+  ```
+  teams = Hash.new { |hash, key| hash[key] = Hash.new(&hash.default_proc) }
+  ```
+  Note that we pass the default proc as a block to the Hash constructor by converting it using the `&` operator. This technique allows us to construct arbitrarily sized tree structures on the fly. It is especially useful if we do not know exactly how deep the tree needs to be in advance, or if it needs to grow in size over time.
+  ```
+  teams[:hockey][:western][:pacific] = ["sharks", "oilers"]
+  teams[:hockey][:western][:central] = ["blues", "stars"]
+  teams[:hockey][:eastern][:metropolitan] = ["penguins", "flyers"]
+  teams[:hockey][:eastern][:atlantic] = ["redwings", "bruins"]
+
+  teams # => {
+    :hockey => {
+      :western => {
+        :pacific => [
+          [0] "sharks",
+          [1] "oilers"
+        ],
+        :central => [
+          [0] "blues",
+          [1] "stars"
+        ]
+      },
+      :eastern => {
+        :metropolitan => [
+          [0] "penguins",
+          [1] "flyers"
+        ],
+        :atlantic => [
+          [0] "redwings",
+          [1] "bruins"
+        ]
+      }
+    }
+  }
+  ```
+
+  ## Memoizing return values of methods with parameters
+
+  It makes sense to store the result of a costly calculation when it is likely to be needed again in the future. In the context of a class, it is a Ruby idiom to store this value in an instance variable:
+  ```
+  class Numbers
+    def pi
+      @pi ||= begin
+        ... costly calculations ...
+      end
+    end
+  end
+  ```
+  This technique, called memoization, hides the fact that all calls after the first call to the method will fetch the computed value from the instance variable rather then compute the number again.
+
+  When a method takes one or more parameters, we can use the default block of a hash to achieve memoization in a way that is parameter dependent.
+  ```
+  class Numbers
+    def greatest_common_denominator(*args)
+      @gcd ||= Hash.new do |hash, array|
+        hash[array] = begin
+          ... costly calculations ...
+        end
+      end
+      @gcd[args]
+    end
+  end
+  ```
+  Here, a new hash is stored in the instance variable and when the method is called, the arguments to the method, in the form of an array, are used as the key to the hash. If those particular arguments have not been previously passed to the method and thus the hash, the hash will call the default block to compute and store the value in the hash. Any subsequent calls using those parameters will fetch the previously computed value from the hash instead of computing the value again.
+
+
+  ## String Templates
+
+  The [`%`](http://www.ruby-doc.org/core/String.html#method-i-25) String operator is useful for inserting data into strings with a specifiable format.
+  For example, formatting a floating point number
+  ```
+  "Pi = %.5f" % Math::PI   # => "Pi = 3.14159"
+  ```
+  or zero padding integers
+  ```
+  "%04d" % 45 # => "0045"
+  ```
+
+  Less well known is that `%` also accepts a Hash. Hash keys in the string that are called out with a `%{}` are replaced by their corresponding hash values. I call this the Madlibs feature because it creates a simple string templating system.
+  ```
+  variables = {:animal => 'fox', :action => 'jumps'}
+  template = "The quick brown %{animal} %{action} over the lazy dog"
+  puts template % variables
+  # => The quick brown fox jumps over the lazy dog
+  ```
+
+  ## Word Substitution
+
+  The [`gsub`](http://www.ruby-doc.org/core-2.1.4/String.html#method-i-gsub) String method replaces text in a string. It accepts a Regex to define the match and a string to define the replacement.
+  ```
+  quote = 'The quick brown fox jumps over the lazy dog'
+  puts quote.gsub(/brown/, 'red')
+  # => "The quick red fox jumps over the lazy dog"
+  ```
+  This works for a single [match, replacement] pair. If we want to make multiple replacements in a string, we can take advantage of the fact that `gsub` can accept a replacement hash. When a match is found, the replacement is taken as the value from the hash when the match is used as a key.
+
+  By matching on any word `/\w+/` and using an identity hash populated with the desired replacements, `gsub` provides an clean way to make an arbitrary number of word substitutions in a string.
+
+  ```
+  replacements = {'dog' => 'pig', 'fox' => 'cat'}
+  replacements.default_proc = ->(h, k) { k }
+  puts quote.gsub(/\w+/, replacements)
+  # => "The quick brown cat jumps over the lazy pig"
+  ```
+
+  ## Cataloging
+
+  A hash can be used to catalog objects from a collection by a given attribute. If we have a collection of objects
+  ```
+  Book = Struct.new(:title, :author)
+  books = [
+    Book.new('The Stand', 'Stephen King'),
+    Book.new('The Shining', 'Stephen King'),
+    Book.new('Green Eggs and Ham', 'Dr. Seuss'),
+    Book.new('The World of Ice & Fire', 'George R. R. Martin')
+  ]
+  ```
+  those objects can be cataloged by building a hash of arrays, where the arrays are initialized via the default block only as needed.
+  ```
+  def catalog(collection, by:)
+    catalog = Hash.new { |hash, key| hash[key] = [] }
+    collection.each_with_object(catalog) do |item, catalog|
+      catalog[item.send(by)] << item
+    end
+  end
+
+  puts catalog(books, by: :author) # =>
+  {
+    "Stephen King"=>[
+      #<struct Book title="The Stand", author="Stephen King">,
+      #<struct Book title="The Shining", author="Stephen King">
+    ],
+    "Dr. Seuss"=>[
+      #<struct Book title="Green Eggs and Ham", author="Dr. Seuss">
+    ],
+    "George R. R. Martin"=>[
+      #<struct Book title="The World of Ice & Fire", author="George R. R. Martin">
+    ]
+  }
+  ```
+
+
