@@ -17,8 +17,8 @@ markdown: |
   ```
   To sort a hash and get a hash back there are a few approaches:
   ```
-  hash.sort.to_h
   Hash[hash.sort]
+  hash.sort.to_h # Ruby >= 2.1
   hash.sort_by{ |k, v| k }.to_h # sort by key
   # => {:a=>2, :f=>4, :r=>1}
   hash.sort_by{ |k, v| v }.to_h # sort by value
