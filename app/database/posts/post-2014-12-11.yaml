@@ -125,12 +125,11 @@ markdown: |
           ... costly calculations ...
         end
       end
-      @gcd[args]
+      @gcd[args.sort]
     end
   end
   ```
-  Here, a new hash is stored in the instance variable and when the method is called, the arguments to the method, in the form of an array, are used as the key to the hash. If those particular arguments have not been previously passed to the method and thus the hash, the hash will call the default block to compute and store the value in the hash. Any subsequent calls using those parameters will fetch the previously computed value from the hash instead of computing the value again.
-
+  Here, a new hash is stored in the instance variable and when the method is called, the arguments to the method, in the form of an array, are used as the key to the hash. If those particular arguments have not been previously passed to the method and thus the hash, the hash will call the default block to compute and store the value in the hash. Any subsequent calls using those parameters will fetch the previously computed value from the hash instead of computing the value again. Note that for methods where the ordering of parameters is not important, like the method in the above example, we sort the arguments before keying the hash to further reduce the number of times the calculation must be made.
 
   ## String Templates
 
