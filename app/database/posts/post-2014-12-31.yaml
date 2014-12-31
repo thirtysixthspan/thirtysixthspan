@@ -1,0 +1,286 @@
+---
+title: Useful Sublime Text 3 Packages for a Rubyist
+slug: useful-sublime-text-3-packages-for-a-rubyist
+date: Wednesday December 31th, 2014
+tags:
+  - Sublime Text
+  - Ruby
+  - JavaScript
+markdown: |
+  [Sublime Text](http://www.sublimetext.com/) is an extensible editor. To maximize my productivity, I have found that using Packages and organizing a set of custom key binding has been very important. There are a large number of Packages available that add support for code highlighting and snippets in various languages, graphical theming, linting, autocompletion, and custom build tools. These can all be found on [Package Control](https://packagecontrol.io/), a web directory of Packages. Here is a list of my most used Packages and the custom key bindings that I have setup to utilize them.
+
+  ## Origami
+  [Origami](https://github.com/SublimeText/Origami) is a package that augments functionality around creating and manipulating panes. It provides a set of commands to create, move to, size and zoom them. I already have a set of key bindings memorized for pane navigation in [Tmux](http://tmux.sourceforge.net/) and so I've set them up similarly in Sublime:
+  ```
+  { "keys": ["ctrl+b", "p"], "command": "prev_view" },
+  { "keys": ["ctrl+b", "n"], "command": "next_view" },
+  { "keys": ["ctrl+b", "o"], "command": "focus_neighboring_group" },
+  { "keys": ["ctrl+b", "z"], "command": "zoom_pane", "args": {"fraction": 0.8} },
+  { "keys": ["ctrl+b", "s"], "command": "resize_pane", "args": {"orientation": "cols"} },
+
+  { "keys": ["ctrl+b", "c"], "command": "create_pane_with_file", "args": {"direction": "right"} },
+  { "keys": ["ctrl+b", "x"], "command": "destroy_pane", "args": {"direction": "self"} },
+
+  { "keys": ["ctrl+b", "up"], "command": "travel_to_pane", "args": {"direction": "up"} },
+  { "keys": ["ctrl+b", "right"], "command": "travel_to_pane", "args": {"direction": "right"} },
+  { "keys": ["ctrl+b", "down"], "command": "travel_to_pane", "args": {"direction": "down"} },
+  { "keys": ["ctrl+b", "left"], "command": "travel_to_pane", "args": {"direction": "left"} },
+
+  { "keys": ["ctrl+b", "shift+up"], "command": "carry_file_to_pane", "args": {"direction": "up"} },
+  { "keys": ["ctrl+b", "shift+right"], "command": "carry_file_to_pane", "args": {"direction": "right"} },
+  { "keys": ["ctrl+b", "shift+down"], "command": "carry_file_to_pane", "args": {"direction": "down"} },
+  { "keys": ["ctrl+b", "shift+left"], "command": "carry_file_to_pane", "args": {"direction": "left"} },
+  ```
+
+  ## Github Tools
+  [Origami](https://github.com/temochka/sublime-text-2-github-tools) is a package that provides commands to interact with the [Github](http://github.com) repository that you are editing in Sublime. I find myself frequently needing to share references to code with colleagues. Github tools makes it easy to generate a URL on Github to code you have selected in Sublime. It also provides some useful commands to create, edit, and load Gists directly in Sublime. I group all my Github commands behind a single meta key ctrl+g in the style of Tmux:
+  ```
+  { "keys": ["ctrl+g", "g"], "command": "public_gist_from_selection" },
+  { "keys": ["ctrl+g", "p"], "command": "private_gist_from_selection" },
+  { "keys": ["ctrl+g", "o"], "command": "open_gist_in_editor" },
+  { "keys": ["ctrl+g", "w"], "command": "open_gist_in_browser" },
+  { "keys": ["ctrl+g", "v"], "command": "open_remote_url" },
+  { "keys": ["ctrl+g", "c"], "command": "copy_remote_url" },
+  { "keys": ["ctrl+g", "b"], "command": "blame" },
+  { "keys": ["ctrl+g", "h"], "command": "history" },
+  ```
+
+  ## CTags
+  [CTags](https://github.com/SublimeText/CTags) provides a way to easily generate, navigate and search an index of language objects found in your active Sublime project. This is most useful for navigating directly to function or constant definitions in files. This Package requires that you install and configure a tag generation tool. The default setup is configured for [Exuberant CTags](http://ctags.sourceforge.net/), but I use [Ripper Tags](https://github.com/tmm1/ripper-tags) for Ruby and configure it as follows using [RVM](https://rvm.io/):
+  ```
+  { "command": "source $HOME/.bashrc && rvm-auto-ruby -S ripper-tags" }
+  ```
+  and setup key bindings behind the meta key ctrl+t.
+  ```
+  { "keys": ["ctrl+t", "t"], "command": "navigate_to_definition" },
+  { "keys": ["ctrl+t", "f"], "command": "search_for_definition" },
+  { "keys": ["ctrl+t", "r"], "command": "rebuild_tags" },
+  ```
+
+  ## Shell Commands
+  [Shell Command](https://github.com/markbirbeck/sublime-text-shell-command) is a package that allows you to execute arbitrary commands in a shell and place that output in a scratch buffer (rather than a panel) making it easily viewable. In its most flexible usage, you simply type the command in a pop-up window. After the output has been generated in a scratch buffer, you can rerun the command in the same window with a context specific key binding. I have setup the key bindings behind the meta key ctrl+c:
+  ```
+  { "keys": ["ctrl+c", "c"], "command": "shell_command" },
+  {
+    "keys": ["c"],
+    "command": "shell_command_refresh",
+    "context": [{ "key": "setting.ShellCommand" }]
+  },
+  ```
+  By default the shell does not include your shell configuration. So in order to use commands such as Bundle or Rake, I have setup a custom key binding to allow me to run commands with my configured version of Ruby through RVM:
+  ```
+  {
+    "keys": ["ctrl+c", "r"],
+    "command": "shell_command",
+    "args": {
+      "command_prefix": "source $HOME/.bashrc && rvm-auto-ruby -S",
+      "prompt": "Shell Command"
+    }
+  },
+  ```
+  The real power of Command Shell is to setup custom key bindings for your most frequently used shell commands such as viewing a process list or tailing particular logs. For example:
+  ```
+  { // Process list
+    "keys": ["ctrl+c", "p"],
+    "command": "shell_command",
+    "args": {
+      "command": "ps xcro user,pid,%cpu,cputime,%mem,command | head -n 28",
+    }
+  },
+  ```
+  will show a process list. Then, custom key bindings for the Shell Command context can be used to take action on the output of the command. For example, with the following key binding, you can kill a process by selecting the process number in the buffer and typing 'k'.
+  ```
+  { // Send SIGKILL to a process number selected
+    // in a Shell Command Window
+    "keys": ["k"],
+    "command": "shell_command",
+    "args": {
+      "command": "kill -9",
+      "region": "arg"
+    },
+    "context": [{ "key": "setting.ShellCommand" }]
+  },
+  ```
+  There is a lot more flexibility and room for customization provided by this package, so I encourage you to check out [Shell Command](https://github.com/markbirbeck/sublime-text-shell-command).
+
+  ## Replacement File Browser
+
+  [File Browser](https://github.com/aziz/SublimeFileBrowser) is an excellent replacement for the default file Sublime Sidebar. In particular is adds [numerous key bindings](https://github.com/aziz/SublimeFileBrowser#shortcuts) for creating and manipulating files, eliminating the need to use the mouse for directory navigation and basic file operations. Here is the key binding to open the FileBrowser at my preferred location on the left hand side:
+  ```
+  {
+    "keys": ["ctrl+d"],
+    "command": "dired",
+    "args": {
+      "immediate": true,
+      "single_pane": true,
+      "other_group": "left",
+      "project": true
+    }
+  },
+  ```
+  but it can also be setup on the right hand side:
+  ![SublimeFileBrowser Screenshot2](http://cl.ly/image/0Z2U062k3l3p/Screen%20Shot%202014-01-24%20at%2011.26.53.png)
+
+  ## Web Access
+  I have find the following four Packages very handy for accessing web content based on content selected inside of Sublime. I have setup the key bindings behind the meta key ctrl+w:
+
+  ### Open URL
+  [Open URL](https://github.com/noahcoad/open-url/tree/st3) allows you to open your web browser to the URL highlighted in Sublime.
+  ```
+  { "keys": ["ctrl+w", "o"], "command": "open_url" },
+  ```
+
+  ### Google Search
+  [Google Search](https://github.com/nwjlyons/google-search) allows you to google any content highlighted in Sublime.
+  ```
+  { "keys": ["ctrl+w", "g"], "command": "google_search" },
+  ```
+
+  ### Goto Documentation
+  [Goto Documentation](https://github.com/kemayo/sublime-text-2-goto-documentation) allows you to intelligently search for help documentation on the web using the automatically determined scope of the highlighted text in Sublime. In other words, if you are editing a Ruby file, it will search the Ruby core documentation.
+  ```
+  { "keys": ["ctrl+w", "h"], "command": "goto_documentation" },
+  ```
+
+  ### HTTP Requester
+  [HTTP Requester](https://github.com/braindamageinc/SublimeHttpRequester) is an amazing package that allows you to execute arbitrary HTTP requests and to get the request response in a scratch buffer. It is very useful for interacting with APIs. It supports making requests using all the HTTP verbs, setting headers, and completing forms.
+  ```
+  { "keys": ["ctrl+w", "e"], "command": "http_requester" },
+  ```
+  You can simply select a URL or a detailed response request. For example,
+  selecting the following text in a buffer and triggering a request
+  ```
+  POST http://posttestserver.com/post.php
+  Content-type: application/x-www-form-urlencoded
+  POST_BODY:
+  variable1=avalue&variable2=1234&variable3=anothervalue
+  ```
+  will Post a form to the specified URL and return the body of the request response in a new scratch buffer with detailed response information, like so:
+  ```
+  200 OK
+  Date:Wed, 31 Dec 2014 20:08:45 GMT
+  Server:Apache
+  Access-Control-Allow-Origin:*
+  Vary:Accept-Encoding
+  Content-Length:141
+  Content-Type:text/html
+
+  Latency: 77ms
+  Download time:0ms
+
+  Successfully received 3 post variables.
+  ```
+
+
+  ## Rendering
+  Here are three packages that I use to work with Markdown and SQL.
+
+  ### Markdown Preview
+  [Markdown Preview](https://github.com/revolunet/sublimetext-markdown-preview) is a Package that will render a Markdown document that you are editing and open it in your browser. It supports either the Python or Github renderers. Because I primarily use Markdown to edit Markdown in Github repositories, I prefer the latter.
+  ```
+  {
+    "keys": ["ctrl+m"],
+    "command": "markdown_preview",
+    "args": {
+      "target": "browser",
+      "parser": "github"
+    }
+  },
+  ```
+
+  ### SQL
+   First, [SQL Beautifier](https://github.com/zsong/SqlBeautifier) simply improves the formatting of SQL. I find it extremely useful when working with long queries taken from logs or profilers. Simply select a poorly formatted query in Sublime and trigger the formatter.
+  ```
+  { "keys": ["ctrl+s", "b"], "command": "sql_beautifier" },
+  ```
+   Then, [SQL Exec](https://github.com/jum4/sublime-sqlexec) is a Package that allows you to execute queries selected in Sublime against a SQL database and returns those queries in a panel view. It requires a bit of tedious configuration of your database connections, but is useful for working in a relatively stable development environment. For more serious work with SQL I prefer [SQL Pro](http://www.sequelpro.com/).
+  ```
+    { "keys": ["ctrl+s", "c"], "command": "sql_list_connection" },
+    { "keys": ["ctrl+s", "e"], "command": "sql_execute" },
+    { "keys": ["ctrl+s", "h"], "command": "sql_history" },
+    { "keys": ["ctrl+s", "q"], "command": "sql_query" },
+    { "keys": ["ctrl+s", "s"], "command": "sql_show_records" },
+    { "keys": ["ctrl+s", "d"], "command": "sql_desc" },
+  ```
+
+  ## BuildView
+  Sublime has a convenient build system that allows you trigger (super+b) shell command to build a file or execute a test suite. The output of the build command is piped into a Sublime Panel. I prefer to have the output of a build placed into a scratch buffer instead and that is exactly the functionality that the [BuildView](https://github.com/rctay/sublime-text-2-buildview) Package provides. To use it you must override your build key binding.
+  ```
+  {
+    "keys": ["super+b"],
+    "command": "build",
+    "context": [{
+      "key": "build_fake",
+      "operator": "equal",
+      "operand": true
+    }]
+  },
+  ```
+
+  ## Linting
+   I find that I am using linting in Ruby and JavaScript more and more frequently. There are various linting packages available for these languages (and other too), but I have found the following two Packages to be the best for me.
+
+  ### Rubocop
+  The [Rubocop package](https://github.com/pderichs/sublime_rubocop)provides bindings for the [Rubocup static code analyzer for Ruby](https://github.com/bbatsov/rubocop). You first need to install and configure Rubocup, which can take a bit of effort to get it configured for your preferred style. By default the Rubocop package automatically marks issues in your Ruby buffer, but I prefer to disable this
+  ```
+  {
+    "mark_issues_in_view": false,
+  }
+  ```
+  and instead bind a key to trigger the Rubocup analysis.
+  ```
+  {
+    "keys": ["ctrl+l", "r"],
+    "command": "chain",
+    "args": {
+      "commands": [
+        ["rubocop_check_single_file"],
+        ["hide_panel", {"cancel": true}]
+      ]
+    }
+  },
+  ```
+  Normally, the Rubocup output will be piped to a Sublime Panel, but because I use [BuildView](https://github.com/rctay/sublime-text-2-buildview), the output is piped to a scratch buffer instead. For whatever reason, it annoyingly leaves the panel open. To solve this problem, I use the [Chain of Command](https://github.com/jisaacks/ChainOfCommand) Package to trigger a hide_panel command after triggering Rubocop.
+
+  ### JSLint
+  The [JSLint](https://github.com/darrenderidder/Sublime-JSLint) Package provides linting from Douglas Crockford's [JSLint Quality Tool](https://github.com/douglascrockford/JSLint) for Javascript. It requires you to have installed and configured [Node.JS](http://nodejs.org/) on your system and for it to be in your executable path. By default, it will run each time a JavaScript file is saved. I prefer to instead disable this feature
+  ```
+  {
+      "run_on_save" : false
+  }
+  ```
+  and instead bind a key to trigger the JSLint analysis.
+  ```
+  {
+    "keys": ["ctrl+l", "j"],
+    "command": "chain",
+    "args": {
+      "commands": [
+        ["jslint"],
+        ["hide_panel", {"cancel": true}]
+      ]
+    }
+  },
+  ```
+  Again, note the use of the [Chain of Command](https://github.com/jisaacks/ChainOfCommand) Package to trigger a hide_panel command after triggering JSLint.
+
+
+  ## RSpec Testing
+  I most frequently use [RSpec](http://rspec.info/) for testing and the [RSpec Package](https://github.com/SublimeText/RSpec) provides a build system configuration, syntax highlighting, code snippets, and a useful key binding that allows you to bounce back and forth between a file and its spec file.
+  ```
+  { "keys": ["super+period"], "command": "open_rspec_file", "args": {} },
+  ```
+
+  ## Key Bindings
+  Lastly, to learn and remember all of these key maps, I use the [Keymaps](https://github.com/MiroHibler/sublime-keymaps) Package. It provides a nice cheat sheet that summarized all of the available key bindings as well a convenient search window useful for when you have forgotten a particular key binding.
+  ```
+  { "keys": ["ctrl+?"], "command": "cheat_sheet" },
+  { "keys": ["ctrl+/"], "command": "find_keymap" },
+  ```
+
+
+
+
+
+
+
