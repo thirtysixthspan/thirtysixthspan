@@ -33,7 +33,7 @@ markdown: |
   ```
 
   ## Github Tools
-  [Origami](https://github.com/temochka/sublime-text-2-github-tools) is a package that provides commands to interact with the [Github](http://github.com) repository that you are editing in Sublime. I find myself frequently needing to share references to code with colleagues. Github tools makes it easy to generate a URL on Github to code you have selected in Sublime. It also provides some useful commands to create, edit, and load Gists directly in Sublime. I group all my Github commands behind a single meta key ctrl+g in the style of Tmux:
+  [Github Tools](https://github.com/temochka/sublime-text-2-github-tools) is a package that provides commands to interact with the [Github](http://github.com) repository that you are editing in Sublime. I find myself frequently needing to share references to code with colleagues. Github tools makes it easy to generate a URL on Github to code you have selected in Sublime. It also provides some useful commands to create, edit, and load Gists directly in Sublime. I group all my Github commands behind a single meta key ctrl+g in the style of Tmux:
   ```
   { "keys": ["ctrl+g", "g"], "command": "public_gist_from_selection" },
   { "keys": ["ctrl+g", "p"], "command": "private_gist_from_selection" },
