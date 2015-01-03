@@ -82,8 +82,6 @@ markdown: |
   #   ghf
   #  Most frequent instances of {command} in all history
   #   ghf {command}
-  #  Execute {command-number}
-  #   ghf {command-number}
   #  Execute {command-number} after a call to ghf
   #   !! {command-number}
   function latest-history { history | tail -n 50 ; }
