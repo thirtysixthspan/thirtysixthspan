@@ -1,0 +1,103 @@
+---
+title: Grep your bash history commands and execute one
+slug: grep-history-for
+date: Friday January 2nd, 2015
+tags:
+  - Bash
+  - Grep
+  - History
+markdown: |
+  While working in the Bash shell it is common to want to repeat a command that you have recently executed. Bash keeps a history of executed commands in a history file `.bash_history` that you can access by simply typing `history`.
+  ```
+  > history
+  1  ls
+  2  cd ~
+  3  ls .*
+  4  cat .bash_history
+  5  history
+  ```
+  This will output a list of commands prefixed with an identification number. If you only want to see the last N entries in the history, type `history N`.
+  ```
+  > history 4
+  3  ls .*
+  4  cat .bash_history
+  5  history
+  6  history 4
+  ```
+  To execute a command from your history, you can use the history expansion `!` followed by the identification number.
+  ```
+  > !4
+  cat .bash_history
+  ```
+  Note that the `!4` expands to `cat .bash_history` which is echoed to the terminal before being executed. You can also use `!!` as a shortcut for executing the last command. This avoids having to type the identification number, which is often more than one character, depending on the length of your history.
+
+  A more convenient method of executing a command is to use the `!` expansion followed by a matching string. For example:
+  ```
+  > !cat
+  cat .bash_history
+  ```
+  executes that last command to begin with `cat`. Note that the matching string cannot contain any spaces.
+
+  You can get a lot of mileage out of these expansions, but you may run into a couple problems. First, your history will grow. Reviewing all those entries for the one you want can be tedious, especially given that there will be many duplicate commands. Second, the identification numbers will get longer and less convenient to type.
+
+  To solve the first problem, you can pipe the output of history to grep so that you only review only those commands that match a pattern. For example:
+  ```
+  history | grep mplayer
+  ```
+  will show all the previous incantations of mplayer. A convenient alias that you can add to your `.bashrc` file (located in your home directory) is:
+  ```
+  alias gh='history | grep '
+  ```
+  which will shorten the previous command to:
+  ```
+  gh mplayer
+  ```
+  This is quite useful, but you will note that there are still duplicate entries and the numbers are not necessarily consecutive. To address these problems, I have created a shell function that will return a list of the top ten commands matching a specified pattern and make it very easy to execute one of them. For example:
+  ```
+  > ghf brew
+  1 brew install rcm
+  2 brew install karabiner
+  3 brew install z
+  4 brew install wget mplayer
+  5 brew install wget --with-iri
+  6 brew install wget
+  7 brew install pv
+  8 brew install phantomjs
+  9 brew install mplayer
+  10 brew install imagemagick
+  ```
+  and then I can use the `!!` shell expansion to choose one of the 10 commands to execute:
+  ```
+  > !! 5
+  brew install wget --with-iri
+  ```
+  Note the space between the `!!` and the identification number.
+
+  Here is the full text of the `ghf` function, which can be added to your `.bashrc`
+  file so that `ghf` is available in your shell. I hope you find it useful!
+  ```
+  # ghf - [G]rep [H]istory [F]or top ten commands and execute one
+  # usage:
+  #  Most frequent command in recent history
+  #   ghf
+  #  Most frequent instances of {command} in all history
+  #   ghf {command}
+  #  Execute {command-number}
+  #   ghf {command-number}
+  #  Execute {command-number} after a call to ghf
+  #   !! {command-number}
+  function latest-history { history | tail -n 50 ; }
+  function grepped-history { history | grep "$1" ; }
+  function chop-first-column { awk '{for (i=2; i<NF; i++) printf $i " "; print $NF}' ; }
+  function add-line-numbers { awk '{print NR " " $0}' ; }
+  function top-ten { sort | uniq -c | sort -r | head -n 10 ; }
+  function unique-history { chop-first-column | top-ten | chop-first-column | add-line-numbers ; }
+  function ghf {
+    if [ $# -eq 0 ]; then latest-history | unique-history; fi
+    if [ $# -eq 1 ]; then grepped-history "$1" | unique-history; fi
+    if [ $# -eq 2 ]; then
+      `grepped-history "$1" | unique-history | grep ^$2 | chop-first-column`;
+    fi
+  }
+  ```
+
