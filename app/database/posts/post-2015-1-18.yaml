@@ -4,6 +4,7 @@ slug: hasten-the-import-of-large-tables-into-mysql
 date: Sunday January 18th, 2015
 tags:
   - SQL
+  - mySQL
   - Databases
   - Ruby
   - Gem
@@ -45,7 +46,14 @@ markdown: |
 
   At this point in time, I really don't know what is causing the slowdown. From my light research, I might hazard a guess that the memory requirements of the indexing algorithm grow beyond the available resources. So, the exact position of the knee and amount of slowdown likely depends on the configuration and hardware. [Here is the benchmarking code](https://github.com/thirtysixthspan/hasten/tree/master/test) if you would like to try it out.
 
-  To speedup the import process for large indexed innoDB tables, I created a tool called [Hasten](https://github.com/thirtysixthspan/hasten). This tool alters a SQL dump so that it will import faster. It does this by removing the indexes from all table definitions and then adding the indexes back at the end of the import. If you review the plot above, you will see that there is a dramatic improvement import time for large tables.
+  To speedup the import process for large indexed innoDB tables, I created a tool called [Hasten](https://github.com/thirtysixthspan/hasten). This tool alters a SQL dump so that it will import faster. It does this by removing the indexes from all table definitions and then adding the indexes back at the end of the import. If you review the plot above, you will see that there is a dramatic reduction in import time for large tables. Hasten is written in Ruby and if you have Ruby on your system you only need to install the gem
+  ```
+  gem install hasten
+  ```
+  and then insert Hasten into your import command like so
+  ```
+  cat DUMPFILE | hasten | mysql -uUSER -pPASSWORD DATABASE
+  ```
 
 
 
