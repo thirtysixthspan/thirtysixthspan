@@ -13,7 +13,7 @@ markdown: |
 
   This is not unusual for large database, but there may be something that can be easily done to significantly cut down on the import time. Now I am neither a DBA, nor a mySQL wizard, and so with all that follows: buyer beware. It seems from some research online, that there is only one true answer on how to optimize mySQL: It depends. Not only that. It depends on many, many things including, mySQL configuration, available memory, usage patterns, the operating and file system, schema design, table size, and even possibly what you had for lunch the day prior.
 
-  Now let's say that you are working with a database which contains a heavily indexed innoDB table having more than 5M rows. If you inspect that SQL dump, you will find a `CREATE TABLE` statement. It might look something like this:
+  Now let's say that you are working with a database which contains a large, heavily indexed innoDB table. If you inspect that SQL dump, you will find a `CREATE TABLE` statement. It might look something like this:
   ```
   CREATE TABLE `users` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -40,7 +40,7 @@ markdown: |
 
   Now for whatever reason, this command does not disable indexing on innoDB tables, even though it is included in the dump. Possibly that is because innoDB is quite good at inserting data into indexed tables. However, for large innoDB tables, it does not insert data as rapidly into indexed tables as compared to inserting data into unindexed tables.
 
-  So, I ran a benchmark on my local Mac OS X (10.10) environment with a default MySQL install. The benchmark (1) created an indexed innoDB table (2) inserted varying amounts of generated data (3) exported the data using mysqldump (4) measured the time to import that SQL dump. As can be seen in the plot below in red, at around 3M rows, the rate of inserts dropped significantly.
+  So, I ran a benchmark on my local Mac OS X (10.10) environment with a default MySQL 5.6.22 install. The benchmark (1) created an indexed innoDB table (2) inserted varying amounts of generated data (3) exported the data using mysqldump (4) measured the time to import that SQL dump. As can be seen in the plot below in red, at around 3M rows, the rate of inserts dropped significantly.
 
   ![Comparison Chart](/img/mysql-innodb-comparison.png)
 
