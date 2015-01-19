@@ -1,0 +1,72 @@
+---
+title: Hasten the import of large tables into mySQL
+slug: hasten-the-import-of-large-tables-into-mysql
+date: Sunday January 18th, 2015
+tags:
+  - SQL
+  - Databases
+  - Ruby
+  - Gem
+markdown: |
+  You may find that someday you are working on a production application, and you want to do some testing on your local environment using production data. Furthermore, you may find that this application has a very large mySQL database, with tables that have many millions of rows. So, you export that database file from your production environment into a SQL file using `mysqldump` and copy it to your local computer. However, when you go to import that database into mySQL like so `cat database_dump.sql | mysql -uroot` it takes many hours to import.
+
+  This is not unusual for large database, but there may be something that can be easily done to significantly cut down on the import time. Now I am neither a DBA, nor a mySQL wizard, and so with all that follows: buyer beware. It seems from some research online, that there is only one true answer on how to optimize mySQL: It depends. Not only that. It depends on many, many things including, mySQL configuration, available memory, usage patterns, the operating and file system, schema design, table size, and even possibly what you had for lunch the day prior.
+
+  Now let's say that you are working with a database which contains a heavily indexed innoDB table having more than 5M rows. If you inspect that SQL dump, you will find a `CREATE TABLE` statement. It might look something like this:
+  ```
+  CREATE TABLE `users` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) DEFAULT NULL,
+    `address_detail_id` int(11) NOT NULL,
+    `billing_detail_id` int(11) NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `name` (`id`,`name`),
+    KEY `address` (`address_detail_id`),
+    KEY `billing` (`billing_detail_id`),
+    KEY `foreign` (`id`,`address_detail_id`,`billing_detail_id`),
+    KEY `covering` (`id`,`name`,`address_detail_id`,`billing_detail_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  ```
+  Shortly thereafter will be a large number of `INSERT INTO` statements pumping the data into your newly created table. Note that this table has a number of `KEY` attributes, indicating the presence of indexes. Indexes can speed up select queries, but they do so by trading storage space for speed. You might simply think of an index as a presorted version of the data in your table that makes it easier for mySQL to find a particular piece when searching for it.
+
+  When you insert data into an indexed table, mySQL must not only store your data, but also must sort it. It turns out that for small innoDB tables, this can be done efficiently to the point that it does not significantly impact the time to insert data. Now apparently, or rather reportedly, inserting data into indexed MyISAM tables, even smaller ones, is slower that inserting them into a table without those indexes. Thus, this explains why you will fined statements like these in your SQL file surrounding the insert statements for any given table:
+  ```
+  /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+  ...
+  /*!40000 ALTER TABLE `users` ENABLE KEYS */;
+  ```
+  It signals to mySQL to disable the indexes while inserting data, for speed. The indexes are built when they are re-enabled. Note that those commands are not commented out, but rather that is the syntax for conditional execution of commands depending on the server version. Apparently this command was introduced in MySQL 4.0.0.
+
+  Now for whatever reason, this command does not disable indexing on innoDB tables, even though it is included in the dump. Possibly that is because innoDB is quite good at inserting data into indexed tables. However, for large innoDB tables, it does not insert data as rapidly into indexed tables as compared to inserting data into unindexed tables.
+
+  So, I ran a benchmark on my local Mac OS X (10.10) environment with a default MySQL install. The benchmark (1) created an indexed innoDB table (2) inserted varying amounts of generated data (3) exported the data using mysqldump (4) measured the time to import that SQL dump. As can be seen in the plot below in red, at around 3M rows, the rate of inserts dropped significantly.
+
+  ![Comparison Chart](/img/mysql-innodb-comparison.png)
+
+  At this point in time, I really don't know what is causing the slowdown. From my light research, I might hazard a guess that the memory requirements of the indexing algorithm grow beyond the available resources. So, the exact position of the knee and amount of slowdown likely depends on the configuration and hardware. [Here is the benchmarking code](https://github.com/thirtysixthspan/hasten/tree/master/test) if you would like to try it out.
+
+  To speedup the import process for large indexed innoDB tables, I created a tool called [Hasten](https://github.com/thirtysixthspan/hasten). This tool alters a SQL dump so that it will import faster. It does this by removing the indexes from all table definitions and then adding the indexes back at the end of the import. If you review the plot above, you will see that there is a dramatic improvement import time for large tables.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
