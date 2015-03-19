@@ -1,0 +1,75 @@
+---
+title: Dynamic matchers in RSpec
+slug: dynamic-matchers-in-rspec
+date: Wednesday March 18th, 2015
+tags:
+  - RSpec
+  - Ruby
+markdown: |
+  RSpec has a neat feature that can improve the readability of your tests called Dynamic Predicate Matchers. These are matchers that are created on the fly for the particular class under test. Consider the following simple class:
+  ```
+  class Foo
+
+    attr_accessor :bar, :baz
+
+    def valid?
+      bar == true && baz == false
+    end
+
+  end
+  ```
+  The `valid?` method is a predicate method. Predicate methods are, by convention, methods that end with a question mark and return a boolean. They are frequently methods that report on the internal state of an object.
+  In a test, RSpec will automatically generate matchers that leverage those predicate methods. Here are two example tests that use a dynamically generated matcher `be_valid`:
+  ```
+  RSpec.describe Foo do
+
+    it "is valid when bar is true" do
+      foo = described_class.new
+      foo.bar = true
+      foo.baz = false
+      expect(foo).to be_valid
+    end
+
+    it "is invalid when bar is false" do
+      foo = described_class.new
+      foo.bar = false
+      foo.baz = false
+      expect(foo).to_not be_valid
+    end
+
+  end
+  ```
+  The expectations read much more like English. Compare
+  ```
+  expect(foo).to be_valid
+  ```
+  to the alternative
+  ```
+  expect(foo.valid?).to be true
+  ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
