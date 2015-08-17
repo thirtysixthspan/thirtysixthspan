@@ -1,0 +1,44 @@
+---
+title: Enterprise Failure
+slug: enterprise-failure
+date: Saturday February 21st, 2015
+tags:
+  - Mistakes
+  - Failure
+  - Complexity
+  - Software Development
+markdown: |
+  Developing enterprise software is a complicated and error prone activity. Expect failures to occur. As developers, the single most important thing we can do to minimize failure it to always be reducing the complexity of our software.
+
+  ---
+
+  Being an enterprise software developer is hard. Sometimes it feels like we are placing each new feature on a leaning Jenga tower that is about to tip over and fall to the ground.
+
+  Weekly, we are tasked with adding new features to a complex system built by other people, of various skill levels, over a period of many years, always under a time constraint.
+
+  Paralyzed in our fear of breaking something, we submit the smallest possible code update that will get that feature working.
+
+  The problem with this approach is that just like in Jenga, it gets harder and harder and at some point impossible to add new features without something breaking.
+
+  Why do we do it anyway? Because, if we break something now, we know full well that accusatory eyes from around the company are on us as the responsible party.
+
+  **This is wrong thinking.**
+
+  Enterprise software is complex. Failures will occur. This is expected.
+
+  It is no single person's fault when something breaks; it is an Enterprise failure.
+
+  Every person in the company is responsible - developers, testers, architects, managers, vice presidents and chief executives.
+
+  However, every person has a role in preventing failure. Our role, as developers, is not simply to add new features. Our role is also to build failure resistant software.
+
+  The single most valuable thing we can do to make our software resist failure is to reduce complexity. Complex software is hard to understand, modify, extend, debug and test.
+
+  Each and every time you submit code, the overall code base should be less complex, not more complex. This is not easy to achieve. It is a constant battle. It is the crux of our job.
+
+  Through constant refactoring, conscientious design, and the application of established best practices, we can reduce complexity to do our part to reduce failures.
+
+  **Don't fear failures, fear the complexity that leads to failure.**
+
+  *Adapted from a blog post of mine on the [Square Root](http://square-root.com/) internal engineering blog*
+
