@@ -1,0 +1,110 @@
+---
+title: What did you learn today?
+slug: what-did-you-learn-today
+date: Thursday May 21th, 2015
+tags:
+  - RSpec
+  - Ruby
+markdown: |
+  Being a good software developer requires you to continuously learn new languages, skills, techniques and tools. Here are a few tips to get you started and keep you learning.
+
+  ---
+
+
+  ### Branch out beyond your existing core skills
+
+    You most certainly know how to do some things very well.
+
+    You have a programming language that you know by heart. There is a framework you always use to build websites. You have your environment and tools setup exactly the way you like.
+
+    You are productive. Being productive makes you happy. It provides a sense of accomplishment. It pays the bills.
+
+    As humans, we are naturally biased to use the tools that we know well in order to solve a problem at hand. We do this because it is immediately rewarding.
+
+    On the other hand, learning is often hard, confusing and time consuming. If anything, we are naturally discouraged from learning.
+
+    Because technology rapidly changes, the value of your existing knowledge rapidly declines.
+
+    The only way to deal with this fact is to always be putting yourself in a position that requires you to learn and use new skills.
+
+    If you do this enough, you will soon find that the act of mastering a new skill and the accompanying new found productivity will become a preferable reward.
+
+
+  ### Learn everything you can through deep immersion
+
+    The fastest way to learn a new spoken language is to go to a country where that language is spoken and learn while immersed within every aspect of the culture.
+
+    The same holds true for learning a new programming language. The fastest way to learn is to immerse yourself in the relevant programming community.
+
+    You can do that by:
+
+    * reading blog posts and books
+    * watching videos and listening to podcasts
+    * attending or speaking at user groups and conferences,
+    * connecting with other developers over Twitter and IRC
+    * reading and writing code for open sources projects
+    * joining a team at work already using the language on an existing project
+
+    It can be counter-intuitive and even scary to jump right into the deep end of a pool, but it really is the quickest way to learn to swim.
+
+
+  ### Copy code that other developers have written
+
+    Copy-and-Paste programmers are often derided, but every good developer has well worn copy and paste keys.
+
+    It can be really challenging to write code from scratch when using a new technology.
+
+    Instead, it is better to copy working code written by other developers, even if you do not fully understand the code.
+
+    Having a working example will allow you to tinker, test, and deconstruct the code until you can understand each piece.
+
+    While you should not copy and paste code directly for production use, it is a great way to write prototype code and learn new programming patterns.
+
+
+  ### Read, write, read, write, read, write
+
+    When you begin to learn a new language, you will most likely spend most of your time reading code.
+
+    When you begin to become proficient in using the language, you will most likely spend most of your time writing code.
+
+    Both of these situations are common anti-patterns.
+
+    You can greatly accelerate your learning by writing code that utilizes the patterns and techniques that you read about, right after reading about them.
+
+    In order to continue learning after becoming proficient, you need to read code other people have written in order to find new patterns and techniques to use in your own code.
+
+    You should always be reading as much code as you write and vice versa.
+
+
+  ### Show off your code, get feedback, revise
+
+    It is a well known psychological bias that when we are faced with a decision, we more strongly believe one choice is correct, after we have made that choice, simply because we made the choice.
+
+    Writing code involves a lot of small decisions. These facts together represents a significant obstacle to improving the code we write.
+
+    With each decision you make, you become more and more confident in the outcome, and can often come to the point of being unable to see any other way to write the code.
+
+    Because we can so easily become blind to our own code, we must get other developers to review our code and suggest alternative approaches and improvements that might be hard for us to otherwise see.
+
+    Authors never write books without editors and rewrites. Developers never write code without reviewers and revisions.
+
+
+  ### Teach in order to master
+
+    The best way to master a new technology is to find an opportunity to teach someone that technology.
+
+    There are many ways to do this, some easy, and some more involved:
+
+    * telling a colleague
+    * giving a demonstration
+    * writing a blog post
+    * writing documentation
+    * giving a presentation
+    * organizing a workshop
+    * pair programming
+    * code reviews
+
+    Because each of these activities will require you to spend as much time organizing your own thoughts as time spent actually teaching, you are sure to benefit as much as your pupils.
+
+  *Adapted from a blog post of mine on the [Square Root](http://square-root.com/) internal engineering blog*
+
