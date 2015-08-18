@@ -1,5 +1,5 @@
 ---
-title: Buy or Build: Third-Party Code Evaluation
+title: Buy or Build: Third-party code evaluation
 slug: buy-or-build-third-party-code-evaluation
 date: Monday August 17th, 2015
 tags:
@@ -11,62 +11,62 @@ markdown: |
 
   The State of Development
 
-    How long has the library existed?
-    Is the library actively developed?
-    How often are new versions of the library released?
-    Has the library had a stable release?
-    Are breaking changes made to the library frequently?
-    Does the project follow semantic versioning?
-    Is there a published road map for future work with dates?
-    Are there pull requests that are frequently merged, or left unmerged?
-    Are there outstanding Github issues?
+    * How long has the library existed?
+    * Is the library actively developed?
+    * How often are new versions of the library released?
+    * Has the library had a stable release?
+    * Are breaking changes made to the library frequently?
+    * Does the project follow semantic versioning?
+    * Is there a published road map for future work with dates?
+    * Are there pull requests that are frequently merged, or left unmerged?
+    * Are there outstanding Github issues?
 
   Library dependencies
 
-    How many dependencies does the library have?
-    Are the dependencies up to date?
-    Are the required libraries of equal quality?
+    * How many dependencies does the library have?
+    * Are the dependencies up to date?
+    * Are the required libraries of equal quality?
 
   Quality
 
-    How well written is the library?
-    Does the library follow an established style guide?
-    Are code quality metrics available?
-    What is the level of test coverage?
-    Does the library have any known bugs?
-    Does the library follow industry standards?
+    * How well written is the library?
+    * Does the library follow an established style guide?
+    * Are code quality metrics available?
+    * What is the level of test coverage?
+    * Does the library have any known bugs?
+    * Does the library follow industry standards?
 
   Technology
 
-    Is the library based on a sound algorithmic approach?
-    What are the CPU, memory and network demands?
-    Is the approach novel, untested or well established?
-    Are there any potential security risks that could be introduced by the library?
+    * Is the library based on a sound algorithmic approach?
+    * What are the CPU, memory and network demands?
+    * Is the approach novel, untested or well established?
+    * Are there any potential security risks that could be introduced by the library?
 
   Documentation / Ease of Use
 
-    Does the library have documentation, or will you be required to read the code to use it?
-    Are there learning resources such as books, training videos, or blog posts that can help you learn to use the library?
-    How long will it take you to learn the library's API?
-    Are there people on your team already familiar with the library?
+    * Does the library have documentation, or will you be required to read the code to use it?
+    * Are there learning resources such as books, training videos, or blog posts that can help you learn to use the library?
+    * How long will it take you to learn the library's API?
+    * Are there people on your team already familiar with the library?
 
   Popularity / Community
 
-    What is the reputation of the authors for writing software?
-    How many contributors are there on the project?
-    What is the leadership model of the development team?
-    If the library is hosted on Github, how many stars and forks does it have?
-    Is the project company sponsored or are contributors paid to work on the library?
-    Is this library used in production by a companies?
+    * What is the reputation of the authors for writing software?
+    * How many contributors are there on the project?
+    * What is the leadership model of the development team?
+    * If the library is hosted on Github, how many stars and forks does it have?
+    * Is the project company sponsored or are contributors paid to work on the library?
+    * Is this library used in production by a companies?
 
   Your Use Case
 
-    Does the library meet all the requirements?
-    Does the library provide more functionality than you will need?
-    Is the implementation efficient enough to handle your needs now, and into the future?
-    Can the library support extension in the future?
-    Are there switching costs that would prohibit moving to another library if needed?
-    Is there a license that enables reuse?
-    Does the library have licensing fees?
+    * Does the library meet all the requirements?
+    * Does the library provide more functionality than you will need?
+    * Is the implementation efficient enough to handle your needs now, and into the future?
+    * Can the library support extension in the future?
+    * Are there switching costs that would prohibit moving to another library if needed?
+    * Is there a license that enables reuse?
+    * Does the library have licensing fees?
 
   *Adapted from a blog post of mine on the [Square Root](http://square-root.com/) internal engineering blog*
