@@ -1,0 +1,49 @@
+---
+title: The code is only one half of a commit
+slug: the-code-is-only-one-half-of-a-commit
+date: Friday July 10th, 2015
+tags:
+  - Git
+  - Revision Control
+  - Software Development
+markdown: |
+  Taking the time to add meaningful commit messages along with your code can create a lot of value for your team. These commit messages will help other developers review, understand and extend your code.
+
+  ----
+
+  While either debugging existing code or adding new features that must integrate with existing code, I have often found it useful to review the Git history. [Git blame](http://git-scm.com/docs/git-blame) gives us the commit SHA and author for each line of code in a file. Selecting the commit SHA of a relevant line of code, and then using [Git log](http://git-scm.com/docs/git-log) to show the related commit history can provide very useful context for the code by way of the commit messages. Ideally, the history is full of descriptive and relevant commit messages that help you to understand the motivation for the changes made to the code.
+
+  A clean commit history and concise commit messages can help other developers understand, debug and extend code.
+
+  Achieving this benefit requires an extra step in your workflow. Because it makes sense to focus on getting the code right first, I suggest that the final step in your workflow before opening a pull request is to update your commit history by rewriting your commit messages and squashing unnecessary commits.
+
+  To revise commit history there are a number of Git tools which can be useful. [Git commit](http://git-scm.com/docs/git-commit) with the --amend flag will allow you to revise the files and commit message included in the last commit. [Git rebase](http://git-scm.com/docs/git-rebase) with the --interactive flag will, among other things, allow you to choose individual commit messages to update, as well as allow you to combine (squash) or split existing commits.
+
+  Because these tools recreate the commit history of your branch, if you have already shared the branch with a shared repository such as Github, you will need to use [Git push](http://git-scm.com/docs/git-push) with the [--force-with-lease](https://developer.atlassian.com/blog/2015/04/force-with-lease/) flag. This will overwrite your previous history on the shared repository making it available for other developers to review and use. The --force-with-lease flag helps to assure you don't accidentally overwrite someone else's commits on a shared branch. It is a best practice to only push with force to a branch that you alone are working on.
+
+  [Using Git intentionally](http://thirtysixthspan.com/posts/intentional-git-may-the-git-force-be-with-you) with the goal of creating clear and meaningful commit messages can be extremely useful for any developers working with your code in the future. While, like any form of code documentation, crafting it can take time, neglecting to do so will build up technical debt. Accruing this debt will gain time savings now, but will make working with your code harder and slower in the future.
+
+  The de facto standard for formatting Git commit messages is given by [Tim Pope](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html):
+
+  > Capitalized, short (50 chars or less) summary
+  >
+  > More detailed explanatory text, if necessary.  Wrap it to about 72
+  > characters or so.  In some contexts, the first line is treated as the
+  > subject of an email and the rest of the text as the body.  The blank
+  > line separating the summary from the body is critical (unless you omit
+  > the body entirely); tools like rebase can get confused if you run the
+  > two together.
+  >
+  > Write your commit message in the imperative: "Fix bug" and not "Fixed bug"
+  > or "Fixes bug."  This convention matches up with commit messages generated
+  > by commands like git merge and git revert.
+
+  It is important to not only explain the changes being made to the code but also the motivation for these particular changes. This is your opportunity as the code author to explain why you chose to solve the problem the way you did to all future developers. If you answer the [following questions](http://robots.thoughtbot.com/5-useful-tips-for-a-better-commit-message) for each of your commits, your code will be easier understand, debug and extend in the future.
+
+  > * Why is this change necessary?
+  > * How does this change address the issue?
+  > * What are the side effects of this change?
+
+  *Adapted from a blog post of mine on the [Square Root](http://square-root.com/) internal engineering blog*
+
+
