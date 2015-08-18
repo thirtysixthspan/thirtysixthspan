@@ -21,7 +21,7 @@ markdown: |
     * Are there pull requests that are frequently merged, or left unmerged?
     * Are there outstanding Github issues?
 
-  Library dependencies
+  Library Dependencies
 
     * How many dependencies does the library have?
     * Are the dependencies up to date?
