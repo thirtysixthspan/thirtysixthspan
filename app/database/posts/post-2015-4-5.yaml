@@ -1,0 +1,75 @@
+---
+title: Do it with style
+slug: do-it-with-style
+date: Monday April 5th, 2015
+tags:
+  - Style
+  - Idioms
+  - Best Practices
+  - Teams
+  - Software Development
+markdown: |
+  Writing code that follows established style guides, using programming idioms and heeding established best practices as part of the development process can significantly improve the developer workflow and the quality of the resulting software.
+
+  ----
+
+  Odds are that much much more time will be spent by your colleagues reading your code than time spent by you writing that code.
+
+  Consider that not only must your code be reviewed and tested by your colleagues, it will almost certainly be modified, multiple times, in the future by other developers, possibly long after you have stopped working on it.
+
+  Furthermore, as new developers join the team, they will likely read your code just to become familiar with its operation.
+
+  If you write a library that gets open sourced, your code may be read by hundreds or even thousands of other developers.
+
+  When you write code, you can save your company many more man hours by making your code easy to read and understand, than you can by writing code as fast as possible.
+
+  You can make your code easy to read and understand by following the company style, using common idioms in the programming language, and following established best practices.
+
+  ### Do it with style
+
+  Programming style is a set of rules established and agreed upon by a team of developers that serves to constrain the syntax of the code that is developed by that team.
+
+  When the entire team follows the style set out in an agreed upon style guide, developers immediately know how to write code, and can more easily read that code.
+
+  Good style, in some cases, can be subjective. In other cases, good style has been determined over time through experience.
+
+  What is important is that a team chooses a single style and follows that style.
+
+  ### Use idioms
+
+  A programming idiom is a commonly used way to write a simple block of code that accomplishes a single function.
+
+  These recurring patterns in code can be easily recognized and reused.
+
+  When idioms are used as building blocks of more complex functionality, the complexity is more easily understood.
+
+  Some languages like Ruby support diversity and flexibility as an explicit goal, whereas other languages such as JavaScript are under constant evolution and as a result support many ways to achieve the same goal.
+
+  Although this flexibility can be powerful in some circumstances, to make your code more easy to understand, it is best to stick with standard idioms unless required to do otherwise.
+
+  Learning to recognize and use idioms in a language requires that you spend as much time reading and analyzing code written by other developers as you do writing your own code.
+
+  If you take the time to learn these idioms, you will find that your code is not only more easy to understand, but you will more easily write code using these patterns.
+
+  ### Follow best practices
+
+  Best practices are a set of guidelines that have been developed over time and justified based on experience that aim to improve the quality, enhance maintainability, minimize complexity and improve extensibility of code.
+
+  Best practices set out the best way to develop software among many possible ways, and often only become obvious when the complexity of the code reaches a certain level.
+
+  In some cases, following best practices requires writing more code and taking more time to develop software than might otherwise be required.
+
+  Because of this, it is easy to fall into the trap of writing code in way that ignores these best practices, especially when writing code under time pressure.
+
+  However, your efforts to follow these best practices, even in the early stages of development or when implementing simple functionality will become automatic and no longer slow you down.
+
+  ### Put it into practice
+
+  As developers we have too many things to remember and writing functional code is already challenging as it is.
+
+  Thus it is not always easy for any of us to keep good style, common idioms and best practices in mind when writing code.
+
+  So, when you review code in pull requests, please take the time to think about these factors and make helpful suggestions based on them to the author.
+
+  *Adapted from a blog post of mine on the [Square Root](http://square-root.com/) internal engineering blog*
+
